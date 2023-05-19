@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import '../../../css/main.scss'
+
+
 
 const EventsForm = () => {
 
