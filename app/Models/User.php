@@ -44,4 +44,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function favourites()
+    {
+        return $this->belongsToMany(Event::class, 'event_user_favourites');
+    }
+
+    public function participations()
+    {
+        return $this->belongsToMany(Event::class, 'event_user_participations');
+    }
+
 }

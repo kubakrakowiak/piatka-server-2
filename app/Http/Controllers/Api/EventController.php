@@ -6,15 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Services\EventServiceInterface;
 
 class EventController extends Controller
 {
+    private EventServiceInterface $eventService;
+
+    public function __construct(EventServiceInterface $eventService)
+    {
+        $this->eventService = $eventService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return Event::all();
     }
 
     /**
@@ -30,7 +38,7 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        //
+        return 2;
     }
 
     /**
