@@ -33,4 +33,14 @@ class Event extends Model
     {
         return $this->belongsToMany(Artist::class);
     }
+
+    public function favouredByUsers()
+    {
+        return $this->belongsToMany(User::class, 'event_user_favourites');
+    }
+
+    public function participants()
+    {
+        return $this->belongsToMany(User::class, 'event_user_participations');
+    }
 }
