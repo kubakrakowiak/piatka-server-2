@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Policies\EventPolicy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,11 @@ class Event extends Model
     protected $keyType = 'string';
 
     protected $fillable = ['name', 'age_restriction', 'starting_at', 'ending_at'];
+
+    public function authorize($ability, $arguments = null)
+    {
+        return app(EventPolicy::class)->{$ability}($this, $arguments);
+    }
 
     public function eventType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

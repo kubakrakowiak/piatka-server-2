@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Services\EventServiceInterface;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class EventController extends Controller
 {
