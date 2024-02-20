@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Company extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
-
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = ['name'];
 
     public function events(){

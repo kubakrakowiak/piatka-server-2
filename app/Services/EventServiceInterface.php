@@ -21,4 +21,6 @@ interface EventServiceInterface
     public function getAllEvents();
 
     public function updateEvent(mixed $validated, string $id);
+
+    public function deleteEvent(string $eventId);
 }

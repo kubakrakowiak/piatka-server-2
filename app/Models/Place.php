@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Place extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
-
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = ['x_coord', 'y_coord', 'alias'];
 
     public function events(): HasMany

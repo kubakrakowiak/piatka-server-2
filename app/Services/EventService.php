@@ -50,4 +50,10 @@ class EventService implements EventServiceInterface
 
         return $event;
     }
+
+    public function deleteEvent(string $eventId)
+    {
+        $event = Event::findOrFail($eventId);
+        $event->delete();
+    }
 }

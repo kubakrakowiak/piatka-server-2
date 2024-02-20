@@ -32,6 +32,7 @@ Route::prefix('events')->group(function () {
     Route::get('/', [\App\Http\Controllers\Api\EventController::class, 'index']);
     Route::get('/{id}', [\App\Http\Controllers\Api\EventController::class, 'show']);
     Route::put('/{id}', [\App\Http\Controllers\Api\EventController::class, 'update']);
+    Route::delete('/{id}', [\App\Http\Controllers\Api\EventController::class, 'destroy']);
     Route::post('/', [\App\Http\Controllers\Api\EventController::class, 'store']);
 });
 

@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Artist extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
-
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = ['name'];
 
     public function events(): BelongsToMany
