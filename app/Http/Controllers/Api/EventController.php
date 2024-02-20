@@ -40,9 +40,9 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $event)
+    public function show(string $eventId)
     {
-        $event = Event::with('artists')->findOrFail($event);
+        $event = Event::with('artists')->findOrFail($eventId);
         return $event;
     }
 
@@ -56,10 +56,16 @@ class EventController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  UpdateEventRequest  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateEventRequest $request, Event $event)
+    public function update(UpdateEventRequest $request, $id)
     {
-        //
+        $event = $this->eventService->updateEvent($request->validated(), $id);
+
+        return response()->json(['event' => $event], 200);
     }
 
     /**

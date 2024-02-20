@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Artist;
 use App\Models\Company;
+use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Image;
 use App\Models\Place;
@@ -23,7 +24,7 @@ class EventService implements EventServiceInterface
         array $artists = [],
         ?int $ageRestriction = null,
     ){
-        $event = \App\Models\Event::factory()->create([
+        $event = Event::factory()->create([
             'name' => $name,
             'age_restriction' => $ageRestriction,
             'starting_at' => $startingAt,
@@ -38,7 +39,15 @@ class EventService implements EventServiceInterface
 
     public function getAllEvents()
     {
-        return \App\Models\Event::all();
+        return Event::all();
     }
 
+    public function updateEvent(mixed $validated, string $id)
+    {
+        $event = Event::findOrFail($id);
+
+        $event->update($validated);
+
+        return $event;
+    }
 }
