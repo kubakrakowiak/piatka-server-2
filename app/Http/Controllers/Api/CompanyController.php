@@ -40,15 +40,18 @@ class CompanyController extends Controller
     public function store(StoreCompanyRequest $request)
     {
         $this->companyService->createCompany($request['name'], 'uri');
-        return 1;
+        return response()->json([
+            'message' => 'Company created successfully',
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Company $company)
+    public function show(string $companyId)
     {
-        //
+        $company = Company::with('events')->findOrFail($companyId);
+        return $company;
     }
 
     /**
@@ -64,14 +67,20 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        $this->companyService->updateCompany($request->validated(), $company->id);
+        return response()->json([
+            'message' => 'Company updated successfully',
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company)
+    public function destroy(string $companyId)
     {
-        //
+        $this->companyService->deleteCompany($companyId);
+        return response()->json([
+            'message' => 'Company deleted successfully',
+        ], 200);
     }
 }

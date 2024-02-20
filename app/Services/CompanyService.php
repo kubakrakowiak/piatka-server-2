@@ -27,4 +27,15 @@ class CompanyService implements CompanyServiceInterface
         return \App\Models\Company::all();
     }
 
+    public function updateCompany(mixed $validated, string $id)
+    {
+        $company = \App\Models\Company::find($id);
+        $company->update($validated);
+    }
+
+    public function deleteCompany(string $companyId)
+    {
+        $company = \App\Models\Company::find($companyId);
+        $company->delete();
+    }
 }

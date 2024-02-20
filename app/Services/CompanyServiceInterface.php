@@ -12,4 +12,8 @@ interface CompanyServiceInterface
     );
 
     public function getAllCompanies();
+
+    public function updateCompany(mixed $validated, string $id);
+
+    public function deleteCompany(string $companyId);
 }
