@@ -36,4 +36,9 @@ class EventService implements EventServiceInterface
         $event->artists()->attach($artists);
     }
 
+    public function getAllEvents()
+    {
+        return \App\Models\Event::all();
+    }
+
 }

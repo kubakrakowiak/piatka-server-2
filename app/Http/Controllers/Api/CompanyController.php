@@ -6,15 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Services\CompanyServiceInterface;
+use App\Services\EventServiceInterface;
 
 class CompanyController extends Controller
 {
+    private CompanyServiceInterface $companyService;
+
+    public function __construct(CompanyServiceInterface $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return $this->companyService->getAllCompanies();
     }
 
     /**
@@ -30,7 +39,8 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        //
+        $this->companyService->createCompany($request['name'], 'uri');
+        return 1;
     }
 
     /**

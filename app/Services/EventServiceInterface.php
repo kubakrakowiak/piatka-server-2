@@ -17,4 +17,6 @@ interface EventServiceInterface
         array $artists = [],
         ?int $ageRestriction = null
     );
+
+    public function getAllEvents();
 }

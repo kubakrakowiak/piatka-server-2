@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = ['name', 'age_restriction', 'starting_at', 'ending_at'];
 

@@ -22,15 +22,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Event::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $this->eventService->getAllEvents();
     }
 
     /**
@@ -38,15 +30,20 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        return 2;
+        $this->eventService->createEvent($request->validated());
+
+        return response()->json([
+            'message' => 'Event created successfully',
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Event $event)
+    public function show(string $event)
     {
-        //
+        $event = Event::with('artists')->findOrFail($event);
+        return $event;
     }
 
     /**
