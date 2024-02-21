@@ -39,9 +39,10 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        $this->companyService->createCompany($request['name'], 'uri');
+        $company = $this->companyService->createCompany($request['name'], 'uri');
         return response()->json([
             'message' => 'Company created successfully',
+            'result' => $company,
         ], 201);
     }
 
@@ -65,11 +66,12 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCompanyRequest $request, Company $company)
+    public function update(UpdateCompanyRequest $request, string $companyId): \Illuminate\Http\JsonResponse
     {
-        $this->companyService->updateCompany($request->validated(), $company->id);
+        $company = $this->companyService->updateCompany($request->validated(), $companyId);
         return response()->json([
             'message' => 'Company updated successfully',
+            'result' => $company,
         ], 200);
     }
 

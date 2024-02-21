@@ -17,4 +17,9 @@ class Image extends Model
     {
         return $this->belongsToMany(Place::class);
     }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_image');
+    }
 }

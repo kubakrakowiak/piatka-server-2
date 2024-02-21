@@ -2,10 +2,16 @@
 
 namespace App\Providers;
 
+use App\Services\ArtistService;
+use App\Services\ArtistServiceInterface;
 use App\Services\CompanyService;
 use App\Services\CompanyServiceInterface;
 use App\Services\EventService;
 use App\Services\EventServiceInterface;
+use App\Services\EventTypeService;
+use App\Services\EventTypeServiceInterface;
+use App\Services\PlaceService;
+use App\Services\PlaceServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(EventServiceInterface::class, EventService::class);
         $this->app->bind(CompanyServiceInterface::class, CompanyService::class);
+        $this->app->bind(ArtistServiceInterface::class, ArtistService::class);
+        $this->app->bind(PlaceServiceInterface::class, PlaceService::class);
+        $this->app->bind(EventTypeServiceInterface::class, EventTypeService::class);
     }
 
     /**

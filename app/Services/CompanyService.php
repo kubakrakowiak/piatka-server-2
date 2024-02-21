@@ -15,27 +15,35 @@ class CompanyService implements CompanyServiceInterface
     public function createCompany(
         string $name,
         string $imageUrl,
-    ){
-        $company = \App\Models\Company::factory()->create([
+    ): Company{
+        $company = Company::factory()->create([
             'name' => $name,
             'image_url' => $imageUrl,
         ]);
+        return $company;
     }
 
     public function getAllCompanies()
     {
-        return \App\Models\Company::all();
+        return Company::all();
     }
 
-    public function updateCompany(mixed $validated, string $id)
+    public function updateCompany(mixed $validated, string $id): Company
     {
-        $company = \App\Models\Company::find($id);
+        $company = Company::find($id);
         $company->update($validated);
+
+        return $company;
     }
 
     public function deleteCompany(string $companyId)
     {
-        $company = \App\Models\Company::find($companyId);
+        $company = Company::find($companyId);
         $company->delete();
+    }
+
+    public function getCompanyById(string $companyId): Company
+    {
+        return Company::find($companyId);
     }
 }

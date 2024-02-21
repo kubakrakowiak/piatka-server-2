@@ -11,7 +11,7 @@ class UpdateEventTypeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,6 @@ class UpdateEventTypeRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255'],
-
         ];
     }
 }

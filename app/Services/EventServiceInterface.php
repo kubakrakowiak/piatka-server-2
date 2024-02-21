@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Event;
 use App\Models\User;
 
 interface EventServiceInterface
@@ -13,14 +14,15 @@ interface EventServiceInterface
         string $startingAt,
         string $endingAt,
         string $placeId,
-        string $imageId,
         array $artists = [],
         ?int $ageRestriction = null
-    );
+    ): Event;
 
     public function getAllEvents();
 
-    public function updateEvent(mixed $validated, string $id);
+    public function updateEvent(mixed $validated, string $id): Event;
 
     public function deleteEvent(string $eventId);
+
+    public function getEventById(string $eventId): Event;
 }

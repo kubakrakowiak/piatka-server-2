@@ -20,21 +20,21 @@ class EventService implements EventServiceInterface
         string $startingAt,
         string $endingAt,
         string $placeId,
-        string $imageId,
         array $artists = [],
         ?int $ageRestriction = null,
-    ){
+    ): Event
+    {
         $event = Event::factory()->create([
             'name' => $name,
             'age_restriction' => $ageRestriction,
             'starting_at' => $startingAt,
             'ending_at' => $endingAt,
             'event_type_id' => $eventTypeId,
-            'image_id' => $imageId,
             'place_id' => $placeId,
             'company_id' => $companyId,
         ]);
         $event->artists()->attach($artists);
+        return $event;
     }
 
     public function getAllEvents()
@@ -42,7 +42,7 @@ class EventService implements EventServiceInterface
         return Event::all();
     }
 
-    public function updateEvent(mixed $validated, string $id)
+    public function updateEvent(mixed $validated, string $id): Event
     {
         $event = Event::findOrFail($id);
 
@@ -55,5 +55,10 @@ class EventService implements EventServiceInterface
     {
         $event = Event::findOrFail($eventId);
         $event->delete();
+    }
+
+    public function getEventById(string $eventId): Event
+    {
+        return Event::findOrFail($eventId);
     }
 }

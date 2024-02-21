@@ -31,10 +31,21 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        $this->eventService->createEvent($request->validated());
+        $request->validated();
+        $event = $this->eventService->createEvent(
+            $request['companyId'],
+            $request['eventTypeId'],
+            $request['name'],
+            $request['startingAt'],
+            $request['endingAt'],
+            $request['placeId'],
+            [],
+            $request['ageRestriction'],
+        );
 
         return response()->json([
             'message' => 'Event created successfully',
+            'result' => $event
         ], 201);
     }
 
@@ -66,7 +77,9 @@ class EventController extends Controller
     {
         $event = $this->eventService->updateEvent($request->validated(), $id);
 
-        return response()->json(['event' => $event], 200);
+        return response()->json([
+            'message' => 'Event updated successfully',
+            'event' => $event], 200);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Company;
 use App\Models\User;
 
 interface CompanyServiceInterface
@@ -9,11 +10,13 @@ interface CompanyServiceInterface
     public function createCompany(
         string $name,
         string $imageUrl,
-    );
+    ): Company;
 
     public function getAllCompanies();
 
-    public function updateCompany(mixed $validated, string $id);
+    public function updateCompany(mixed $validated, string $id): Company;
 
     public function deleteCompany(string $companyId);
+
+    public function getCompanyById(string $companyId): Company;
 }

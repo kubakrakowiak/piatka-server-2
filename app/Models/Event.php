@@ -42,6 +42,12 @@ class Event extends Model
         return $this->belongsToMany(Artist::class);
     }
 
+    public function images()
+    {
+        return $this->belongsToMany(Image::class, 'event_image');
+    }
+
+
     public function favouredByUsers()
     {
         return $this->belongsToMany(User::class, 'event_user_favourites');
