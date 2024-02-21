@@ -38,12 +38,13 @@ class EventTypeController extends Controller
      */
     public function store(StoreEventTypeRequest $request)
     {
-        $this->eventTypeService->createEventType(
+        $eventType = $this->eventTypeService->createEventType(
             $request->validated()
         );
 
         return response()->json([
             'message' => 'Event type created successfully',
+            'result' => $eventType
         ], 201);
     }
 
@@ -70,13 +71,14 @@ class EventTypeController extends Controller
     public function update(UpdateEventTypeRequest $request, string $eventTypeId)
     {
         $request->validated();
-        $this->eventTypeService->updateEventType(
+        $eventType = $this->eventTypeService->updateEventType(
             $request->validated(),
             $eventTypeId
         );
 
         return response()->json([
             'message' => 'Event type updated successfully',
+            'result' => $eventType
         ], 200);
     }
 
