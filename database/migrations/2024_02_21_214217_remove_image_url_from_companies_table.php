@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('event_image', function (Blueprint $table) {
-            $table->id();
-            $table->foreignUuid('event_id')->constrained()->onDelete('cascade');
-            $table->foreignUuid('image_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropColumn('image_url');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('event_image');
+        Schema::table('companies', function (Blueprint $table) {
+            $table->string('image_url')->nullable();
+        });
     }
 };
