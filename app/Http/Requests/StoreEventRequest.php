@@ -26,8 +26,7 @@ class StoreEventRequest extends FormRequest
             "companyId" => ['required', 'string'],
             "eventTypeId" => ['required', 'string'],
             "startingAt" => ['required', 'date'],
-            "locationLng" =>  ['required', 'numeric'],
-            "locationLat" => ['required', 'numeric'],
+            "endingAt" => ['required', 'date'],
             "ticketPrice" => ['required', 'numeric'],
         ];
     }

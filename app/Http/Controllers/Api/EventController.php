@@ -37,7 +37,6 @@ class EventController extends Controller
             $request['eventTypeId'],
             $request['name'],
             $request['startingAt'],
-            $request['endingAt'],
             $request['placeId'],
             [],
             $request['ageRestriction'],
