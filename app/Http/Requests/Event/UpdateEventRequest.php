@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Event;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreParticipationRequest extends FormRequest
+class UpdateEventRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,20 +22,12 @@ class StoreParticipationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'event_id' => ['required', 'exists:events,id'],
-        ];
-    }
-
-    /**
-     * Custom message for validation
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'event_id.required' => 'Event ID is required.',
-            'event_id.exists' => 'The selected event does not exist.',
+            'name' => ['required', 'string', 'max:255'],
+            "companyId" => ['required', 'exists:companies,id'],
+            'eventTypeId' => ['required', 'exists:event_types,id'],
+            "startingAt" => ['required', 'date'],
+            "endingAt" => ['required', 'date'],
+            "ticketPrice" => ['required', 'numeric'],
         ];
     }
 }

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCompanyRequest;
-use App\Http\Requests\UpdateCompanyRequest;
+use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Services\CompanyServiceInterface;
-use App\Services\EventServiceInterface;
 
 class CompanyController extends Controller
 {
