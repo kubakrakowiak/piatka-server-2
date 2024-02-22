@@ -11,7 +11,7 @@ class StoreArtistRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,7 @@ class StoreArtistRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255'],
+            'image_id' => ['string', 'exists:images,id'],
         ];
     }
 }

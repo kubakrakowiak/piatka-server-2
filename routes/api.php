@@ -23,9 +23,44 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', [AuthController::class, 'loginUser']);
 
-Route::prefix('events')->group(function () {
+Route::prefix('company')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Api\CompanyController::class, 'index']);
+    Route::post('/', [\App\Http\Controllers\Api\CompanyController::class, 'store']);
+    Route::get('/{id}', [\App\Http\Controllers\Api\CompanyController::class, 'show']);
+    Route::put('/{id}', [\App\Http\Controllers\Api\CompanyController::class, 'update']);
+    Route::delete('/{id}', [\App\Http\Controllers\Api\CompanyController::class, 'destroy']);
+});
+
+Route::prefix('event')->group(function () {
     Route::get('/', [\App\Http\Controllers\Api\EventController::class, 'index']);
+    Route::get('/{id}', [\App\Http\Controllers\Api\EventController::class, 'show']);
+    Route::put('/{id}', [\App\Http\Controllers\Api\EventController::class, 'update']);
+    Route::delete('/{id}', [\App\Http\Controllers\Api\EventController::class, 'destroy']);
     Route::post('/', [\App\Http\Controllers\Api\EventController::class, 'store']);
+});
+
+Route::prefix('event-type')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Api\EventTypeController::class, 'index']);
+    Route::get('/{id}', [\App\Http\Controllers\Api\EventTypeController::class, 'show']);
+    Route::put('/{id}', [\App\Http\Controllers\Api\EventTypeController::class, 'update']);
+    Route::delete('/{id}', [\App\Http\Controllers\Api\EventTypeController::class, 'destroy']);
+    Route::post('/', [\App\Http\Controllers\Api\EventTypeController::class, 'store']);
+});
+
+Route::prefix('place')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Api\EventTypeController::class, 'index']);
+    Route::get('/{id}', [\App\Http\Controllers\Api\EventTypeController::class, 'show']);
+    Route::put('/{id}', [\App\Http\Controllers\Api\EventTypeController::class, 'update']);
+    Route::delete('/{id}', [\App\Http\Controllers\Api\EventTypeController::class, 'destroy']);
+    Route::post('/', [\App\Http\Controllers\Api\EventTypeController::class, 'store']);
+});
+
+Route::prefix('artist')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Api\ArtistController::class, 'index']);
+    Route::get('/{id}', [\App\Http\Controllers\Api\ArtistController::class, 'show']);
+    Route::put('/{id}', [\App\Http\Controllers\Api\ArtistController::class, 'update']);
+    Route::delete('/{id}', [\App\Http\Controllers\Api\ArtistController::class, 'destroy']);
+    Route::post('/', [\App\Http\Controllers\Api\ArtistController::class, 'store']);
 });
 
 // Favourites Routes

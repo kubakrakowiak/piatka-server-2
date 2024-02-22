@@ -18,7 +18,6 @@ class FavouriteController extends Controller
     {
         $user = Auth::user();
 
-        // Sprawdzenie, czy użytkownik już dodał to wydarzenie do ulubionych
         if ($user->favourites->contains($request->event_id)) {
             return response()->json(['message' => 'This event is already in your favourites'], 409);
         }

@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Services\EventServiceInterface;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class EventController extends Controller
 {
@@ -22,15 +23,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Event::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $this->eventService->getAllEvents();
     }
 
     /**
@@ -38,15 +31,31 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        return 2;
+        $request->validated();
+        $event = $this->eventService->createEvent(
+            $request['companyId'],
+            $request['eventTypeId'],
+            $request['name'],
+            $request['startingAt'],
+            $request['endingAt'],
+            $request['placeId'],
+            [],
+            $request['ageRestriction'],
+        );
+
+        return response()->json([
+            'message' => 'Event created successfully',
+            'result' => $event
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Event $event)
+    public function show(string $eventId)
     {
-        //
+        $event = Event::with('artists')->findOrFail($eventId);
+        return $event;
     }
 
     /**
@@ -59,17 +68,26 @@ class EventController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  UpdateEventRequest  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateEventRequest $request, Event $event)
+    public function update(UpdateEventRequest $request, $id)
     {
-        //
+        $event = $this->eventService->updateEvent($request->validated(), $id);
+
+        return response()->json([
+            'message' => 'Event updated successfully',
+            'event' => $event], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
+    public function destroy(string $eventId)
     {
-        //
+        $this->eventService->deleteEvent($eventId);
+        return response()->json(['message' => 'Event deleted successfully'], 200);
     }
 }

@@ -6,15 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventTypeRequest;
 use App\Http\Requests\UpdateEventTypeRequest;
 use App\Models\EventType;
+use App\Services\EventTypeServiceInterface;
 
 class EventTypeController extends Controller
 {
+    private EventTypeServiceInterface $eventTypeService;
+
+    public function __construct(EventTypeServiceInterface $eventTypeService)
+    {
+        $this->eventTypeService = $eventTypeService;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $eventTypes = $this->eventTypeService->getAllEventTypes();
+        return $eventTypes;
     }
 
     /**
@@ -30,15 +38,23 @@ class EventTypeController extends Controller
      */
     public function store(StoreEventTypeRequest $request)
     {
-        //
+        $eventType = $this->eventTypeService->createEventType(
+            $request->validated()
+        );
+
+        return response()->json([
+            'message' => 'Event type created successfully',
+            'result' => $eventType
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(EventType $eventType)
+    public function show(string $eventTypeId)
     {
-        //
+        $eventType = $this->eventTypeService->getEventTypeById($eventTypeId);
+        return $eventType;
     }
 
     /**
@@ -52,16 +68,29 @@ class EventTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEventTypeRequest $request, EventType $eventType)
+    public function update(UpdateEventTypeRequest $request, string $eventTypeId)
     {
-        //
+        $request->validated();
+        $eventType = $this->eventTypeService->updateEventType(
+            $request->validated(),
+            $eventTypeId
+        );
+
+        return response()->json([
+            'message' => 'Event type updated successfully',
+            'result' => $eventType
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(EventType $eventType)
+    public function destroy(string $eventTypeId)
     {
-        //
+        $this->eventTypeService->deleteEventType($eventTypeId);
+
+        return response()->json([
+            'message' => 'Event type deleted successfully',
+        ], 200);
     }
 }

@@ -14,7 +14,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasUuids, HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
-
+    public $incrementing = false;
+    protected $keyType = 'string';
     /**
      * The attributes that are mass assignable.
      *

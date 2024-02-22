@@ -6,15 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArtistRequest;
 use App\Http\Requests\UpdateArtistRequest;
 use App\Models\Artist;
+use App\Services\ArtistServiceInterface;
 
 class ArtistController extends Controller
 {
+    private ArtistServiceInterface $artistService;
+
+    public function __construct(ArtistServiceInterface $artistService)
+    {
+        $this->artistService = $artistService;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return $this->artistService->getAllArtists();
     }
 
     /**
@@ -30,7 +37,10 @@ class ArtistController extends Controller
      */
     public function store(StoreArtistRequest $request)
     {
-        //
+        return response()->json([
+            'message' => 'Artist created successfully',
+            'result' => $this->artistService->createArtist($request->validated())
+            ], 201);
     }
 
     /**
@@ -52,16 +62,22 @@ class ArtistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtistRequest $request, Artist $artist)
+    public function update(UpdateArtistRequest $request, string $artistId)
     {
-        //
+        return response()->json([
+            'message' => 'Artist updated successfully',
+            'result' => $this->artistService->updateArtist($request->validated(), $artistId)
+            ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Artist $artist)
+    public function destroy(string $artistId)
     {
-        //
+        $this->artistService->deleteArtist($artistId);
+        return response()->json([
+            'message' => 'Artist deleted successfully',
+            ], 200);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Policies\EventPolicy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,8 +12,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = ['name', 'age_restriction', 'starting_at', 'ending_at'];
+
+    public function authorize($ability, $arguments = null)
+    {
+        return app(EventPolicy::class)->{$ability}($this, $arguments);
+    }
 
     public function eventType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -33,6 +41,12 @@ class Event extends Model
     {
         return $this->belongsToMany(Artist::class);
     }
+
+    public function images()
+    {
+        return $this->belongsToMany(Image::class, 'event_image');
+    }
+
 
     public function favouredByUsers()
     {
