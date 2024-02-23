@@ -29,6 +29,16 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
+Route::get('/events-form', function () {
+    return Inertia::render('EventsForm');
+})->middleware(['auth', 'verified'])->name('events-form');
+
+
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [\App\Http\Controllers\Web\Admin\HomeController::class, 'index'])->name('admin');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
