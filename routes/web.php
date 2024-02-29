@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\EventController;
 use App\Http\Controllers\Web\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,9 +32,19 @@ Route::get('/dashboard', function () {
 
 
 
-Route::get('/events-form', function () {
+Route::get('/events/add', function () {
     return Inertia::render('EventsForm');
 })->middleware(['auth', 'verified'])->name('events-form');
+
+
+Route::get('/events', function () {
+    return Inertia::render('Events');
+})->middleware(['auth', 'verified'])->name('events-form');
+
+
+
+
+
 
 
 
@@ -45,5 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/list-event', [\App\Http\Controllers\Web\EventController::class, 'showAllEvents'])->name('list-event');
+
 
 require __DIR__.'/auth.php';

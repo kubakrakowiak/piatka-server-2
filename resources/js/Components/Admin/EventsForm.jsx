@@ -54,6 +54,7 @@ export default function EventsForm() {
     const [artistsQuerry, setArtistsQuerry] = useState('')
     const [musicQuerry, setMusicQuerry] = useState('')
 
+    const [slugInput, setSlugInput] = useState('')
     const [selectedEventPlaces, setSelectedEventPlaces] = useState([])
     const [selectedEventType, setSelectedEventType] = useState(null)
     const [selectedMusicTypes, setSelectedMusicTypes] = useState([])
@@ -141,6 +142,20 @@ export default function EventsForm() {
             case 'premium-event' :
                 setData({...data, premium: true})
                 break;
+            case 'slug' :
+                setSlugInput(value.replace(/\s/g, '-'))
+                setData({...data, slug: value.replace(/\s/g, '-')})
+                break;
+            case 'ageRestriction' :
+                setData({...data, restrictions: {...data.restrictions, age: value}})
+                break;
+            case 'extraRestriction1' :
+                setData({...data, restrictions: {...data.restrictions, extra1: value}})
+                break;
+            case 'extraRestriction2' :
+                setData({...data, restrictions: {...data.restrictions, extra2: value}})
+                break;
+
         }
     }
 
@@ -176,13 +191,13 @@ export default function EventsForm() {
                         wydarzenia.</p>
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-3">
-                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">Nazwa
-                                wydarzenia</label>
+                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">Nazwa wydarzenia</label>
                             <div className="mt-2">
                                 <input
                                     type="text"
                                     name="title"
                                     id="title"
+                                    required={true}
                                     onChange={(event) => saveData(event.target.name, event.target.value)}
                                     autoComplete="given-name"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -194,10 +209,11 @@ export default function EventsForm() {
                             setSelectedEventType(newValue);
                             handleEventTypeChange(newValue);
                         }}>
-                            <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">Typ
-                                wydarzenia</Combobox.Label>
+                            <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">Typ wydarzenia</Combobox.Label>
                             <div className="relative mt-2">
                                 <Combobox.Input
+                                    required={true}
+
                                     className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={(event) => setQuery2(event.target.value)}
                                     displayValue={(x) => x?.name}
@@ -233,21 +249,6 @@ export default function EventsForm() {
                         </Combobox>
 
 
-                        {/*<div className="col-span-full">*/}
-                        {/*    <label htmlFor="street-address"*/}
-                        {/*           className="block text-sm font-medium leading-6 text-gray-900">*/}
-                        {/*        Street address*/}
-                        {/*    </label>*/}
-                        {/*    <div className="mt-2">*/}
-                        {/*        <input*/}
-                        {/*            type="text"*/}
-                        {/*            name="street-address"*/}
-                        {/*            id="street-address"*/}
-                        {/*            autoComplete="street-address"*/}
-                        {/*            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
 
                         <div className="sm:col-span-1 sm:col-start-1">
                             <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
@@ -255,6 +256,8 @@ export default function EventsForm() {
                             </label>
                             <div className="mt-2">
                                 <input
+                                    required={true}
+
                                     onChange={(event) => setData({
                                         ...data, address: {...data.address, city: event.target.value}
                                     })}
@@ -273,6 +276,7 @@ export default function EventsForm() {
                             </label>
                             <div className="mt-2">
                                 <input
+
                                     type="text"
                                     onChange={(event) => setData({
                                         ...data, address: {...data.address, street: event.target.value}
@@ -324,10 +328,11 @@ export default function EventsForm() {
 
                         <div className="sm:col-span-2">
                             <label htmlFor="datetime-start"
-                                   className="block text-sm font-medium leading-6 text-gray-900">Data
-                                rozpoczęcia</label>
+                                   className="block text-sm font-medium leading-6 text-gray-900">Data rozpoczęcia</label>
                             <div className="mt-2">
                                 <input
+                                    required={true}
+
                                     type="datetime-local"
                                     name="datetime-start"
                                     id="datetime-start"
@@ -344,6 +349,8 @@ export default function EventsForm() {
                             </label>
                             <div className="mt-2">
                                 <input
+                                    required={true}
+
                                     type="datetime-local"
                                     name="datetime-end"
                                     id="datetime-end"
@@ -362,6 +369,8 @@ export default function EventsForm() {
                                 className="block text-sm font-medium leading-6 text-gray-900">Miejsce/Miejsca</Combobox.Label>
                             <div className="relative mt-2">
                                 <Combobox.Input
+                                    required={true}
+
                                     className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={(event) => setQuery(event.target.value)}
                                     displayValue={(x) => x?.name}
@@ -419,11 +428,6 @@ export default function EventsForm() {
 
 
                 <div className="border-b border-gray-900/10 pb-12">
-                    {/*<h2 className="text-base font-semibold leading-7 text-gray-900">Dodaj nowe wydarzenie</h2>*/}
-                    {/*<p className="mt-1 text-sm leading-6 text-gray-600">*/}
-                    {/*    This information will be displayed publicly so be careful what you share.*/}
-                    {/*</p>*/}
-
                     <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-4">
                             <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
@@ -435,9 +439,12 @@ export default function EventsForm() {
                                     <span
                                         className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">piatka.com/event/</span>
                                     <input
+                                        required={true}
                                         type="text"
                                         name="slug"
                                         id="slug"
+                                        onChange={(event) => saveData(event.target.name, event.target.value)}
+                                        value={slugInput}
                                         autoComplete="slug"
                                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                         placeholder="unikalna-nazwa-wydarzenia"
@@ -452,6 +459,8 @@ export default function EventsForm() {
                             </label>
                             <div className="mt-2">
                                 <textarea
+                                    required={true}
+
                                     id="description"
                                     name="description"
                                     onChange={(event) => saveData(event.target.name, event.target.value)}
@@ -498,6 +507,8 @@ export default function EventsForm() {
                                     className="block text-sm font-medium leading-6 text-gray-900">Artyści</Combobox.Label>
                                 <div className="relative mt-2">
                                     <Combobox.Input
+                                        required={true}
+
                                         className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         onChange={(event) => setArtistsQuerry(event.target.value)}
                                         displayValue={(x) => x?.name}
@@ -564,6 +575,8 @@ export default function EventsForm() {
                                     className="block text-sm font-medium leading-6 text-gray-900">Muzyka</Combobox.Label>
                                 <div className="relative mt-2">
                                     <Combobox.Input
+                                        required={true}
+
                                         className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         onChange={(event) => setMusicQuerry(event.target.value)}
                                         displayValue={(x) => x?.name}
@@ -634,14 +647,15 @@ export default function EventsForm() {
                                 <div className="relative flex gap-x-3">
                                     <div className="flex h-6 items-center">
                                         <input
-                                            id="comments"
-                                            name="comments"
+                                            id="ageRestriction"
+                                            name="ageRestriction"
                                             type="checkbox"
+                                            onChange={(event) => saveData(event.target.id, event.target.checked)}
                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         />
                                     </div>
                                     <div className="text-sm leading-6">
-                                        <label htmlFor="comments" className="font-medium text-gray-900">
+                                        <label htmlFor="ageRestriction" className="font-medium text-gray-900">
                                             +18
                                         </label>
                                         <p className="text-gray-500">Wydarzenie dla osób pełnoletnich.</p>
@@ -650,14 +664,15 @@ export default function EventsForm() {
                                 <div className="relative flex gap-x-3">
                                     <div className="flex h-6 items-center">
                                         <input
-                                            id="candidates"
-                                            name="candidates"
+                                            id="extraRestriction1"
+                                            name="extraRestriction1"
+                                            onChange={(event) => saveData(event.target.id, event.target.checked)}
                                             type="checkbox"
                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         />
                                     </div>
                                     <div className="text-sm leading-6">
-                                        <label htmlFor="candidates" className="font-medium text-gray-900">
+                                        <label htmlFor="extraRestriction1" className="font-medium text-gray-900">
                                             Restrykcja 2
                                         </label>
                                         <p className="text-gray-500">Opis restrykcji 2.</p>
@@ -666,14 +681,15 @@ export default function EventsForm() {
                                 <div className="relative flex gap-x-3">
                                     <div className="flex h-6 items-center">
                                         <input
-                                            id="offers"
-                                            name="offers"
+                                            id="extraRestriction2"
+                                            onChange={(event) => saveData(event.target.id, event.target.checked)}
+                                            name="extraRestriction2"
                                             type="checkbox"
                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         />
                                     </div>
                                     <div className="text-sm leading-6">
-                                        <label htmlFor="offers" className="font-medium text-gray-900">
+                                        <label htmlFor="extraRestriction2" className="font-medium text-gray-900">
                                             Restrykcja 3
                                         </label>
                                         <p className="text-gray-500">
@@ -697,6 +713,7 @@ export default function EventsForm() {
                                         id="premium-event"
                                         name="event-label"
                                         type="radio"
+                                        required={true}
                                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         onChange={(event) => saveData(event.target.id, null)}
 
@@ -712,6 +729,8 @@ export default function EventsForm() {
                                         id="regular-event"
                                         name="event-label"
                                         type="radio"
+                                        required={true}
+
                                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         onChange={(event) => saveData(event.target.id, null)}
                                     />
