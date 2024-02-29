@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Event;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEventRequest extends FormRequest
+class UpdateEventRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,10 @@ class StoreEventRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            "companyId" => ['required', 'string'],
-            "eventTypeId" => ['required', 'string'],
+            "companyId" => ['required', 'exists:companies,id'],
+            'eventTypeId' => ['required', 'exists:event_types,id'],
             "startingAt" => ['required', 'date'],
-            "locationLng" =>  ['required', 'numeric'],
-            "locationLat" => ['required', 'numeric'],
+            "endingAt" => ['required', 'date'],
             "ticketPrice" => ['required', 'numeric'],
         ];
     }

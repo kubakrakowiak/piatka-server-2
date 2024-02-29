@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreArtistRequest extends FormRequest
+class UpdateCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class StoreArtistRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255'],
-            'image_id' => ['string', 'exists:images,id'],
+
         ];
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreArtistRequest;
-use App\Http\Requests\UpdateArtistRequest;
+use App\Http\Requests\Artist\StoreArtistRequest;
+use App\Http\Requests\Artist\UpdateArtistRequest;
 use App\Models\Artist;
 use App\Services\ArtistServiceInterface;
 
