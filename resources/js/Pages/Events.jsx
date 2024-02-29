@@ -2,7 +2,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import { usePage } from '@inertiajs/inertia-react';
 
-export default function Page({auth}) {
+export default function Page({auth, events}) {
+
+    console.log(events)
 
 
     const buttonVariants = {

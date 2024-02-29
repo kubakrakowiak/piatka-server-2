@@ -43,6 +43,7 @@ export default function Authenticated({user, header, children}) {
 
     return (
         <>
+            <meta name="csrf-token" content="{{ csrf_token() }}" />
             <div>
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>

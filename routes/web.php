@@ -26,26 +26,29 @@ Route::get('/', function () {
     ]);
 });
 
+//Route::get("/events", function() {
+//    return Inertia::render('Events', [
+//        'events' => Http::get('http://127.0.0.1:8000/api/event')->json()
+//    ]);
+//});
+
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 
-Route::get('/events/add', function () {
-    return Inertia::render('EventsForm');
-})->middleware(['auth', 'verified'])->name('events-form');
+Route::get('/events/add', [\App\Http\Controllers\Web\EventController::class, 'create'])->middleware(['auth', 'verified'])->name('test');
 
+Route::get('/events', [\App\Http\Controllers\Web\EventController::class, 'index'])->middleware(['auth', 'verified'])->name('events.index');
 
-Route::get('/events', function () {
-    return Inertia::render('Events');
-})->middleware(['auth', 'verified'])->name('events-form');
+Route::get('/events/{id}', [\App\Http\Controllers\Web\EventController::class, 'edit'])->middleware(['auth', 'verified'])->name('events-form');
 
+Route::patch('/events/{id}', [\App\Http\Controllers\Web\EventController::class, 'update'])->middleware(['auth', 'verified'])->name('events.update');
 
-
-
-
-
+Route::post('/events', [\App\Http\Controllers\Web\EventController::class, 'store'])->middleware(['auth', 'verified'])->name('events.store');
 
 
 

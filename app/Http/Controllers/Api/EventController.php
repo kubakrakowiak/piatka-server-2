@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Event\StoreEventRequest;
-use App\Http\Requests\Event\UpdateEventRequest;
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Services\EventServiceInterface;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class EventController extends Controller
 {
@@ -36,6 +37,7 @@ class EventController extends Controller
             $request['eventTypeId'],
             $request['name'],
             $request['startingAt'],
+            $request['endingAt'],
             $request['placeId'],
             [],
             $request['ageRestriction'],
@@ -54,6 +56,10 @@ class EventController extends Controller
     {
         $event = Event::with('artists')->findOrFail($eventId);
         return $event;
+    }
+
+    public function showAllEvents(){
+        return Event::all();
     }
 
     /**

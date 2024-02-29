@@ -1,4 +1,3 @@
-import EventsFormCopy from "@/Components/Admin/EventsForm-Copy";
 import {PhotoIcon, UserCircleIcon} from '@heroicons/react/24/solid'
 import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
 import {Combobox} from '@headlessui/react'
@@ -12,25 +11,25 @@ const places = [{
     id: 3, name: 'Klub Bukszpryt',
 },]
 
-const eventTypes = [{
-    id: 1, name: 'Impreza',
-}, {
-    id: 2, name: 'Koncert',
-}, {
-    id: 3, name: 'Festiwal',
-},]
+// const eventTypes = [{
+//     id: 1, name: 'Impreza',
+// }, {
+//     id: 2, name: 'Koncert',
+// }, {
+//     id: 3, name: 'Festiwal',
+// },]
 
-const artistCollection = [{
-    id: 1, name: "Tycjana"
-}, {
-    id: 2, name: "Matt Fresh"
-}, {
-    id: 3, name: "Zuza OK"
-}, {
-    id: 4, name: "Luz Wixa"
-}, {
-    id: 5, name: "hehelol"
-}]
+// const artistCollection = [{
+//     id: 1, name: "Tycjana"
+// }, {
+//     id: 2, name: "Matt Fresh"
+// }, {
+//     id: 3, name: "Zuza OK"
+// }, {
+//     id: 4, name: "Luz Wixa"
+// }, {
+//     id: 5, name: "hehelol"
+// }]
 
 const musicCollection = [{
     id: 1, name: "Hip-Hop"
@@ -47,7 +46,14 @@ function classNames(...classes) {
 }
 
 
-export default function EventsForm() {
+export default function EventsForm({data}) {
+
+
+    const [initialData, setInitialData] = useState(data)
+
+    const eventTypes = initialData.eventTypes;
+    const artistCollection = initialData.artists;
+
 
     const [query, setQuery] = useState('')
     const [query2, setQuery2] = useState('')
@@ -59,8 +65,6 @@ export default function EventsForm() {
     const [selectedEventType, setSelectedEventType] = useState(null)
     const [selectedMusicTypes, setSelectedMusicTypes] = useState([])
     const [selectedArtists, setSelectedArtists] = useState([]);
-
-    const [data, setData] = useState([]);
 
 
     const filteredPlaces = query === '' ? places : places.filter((person) => {
@@ -179,9 +183,25 @@ export default function EventsForm() {
         }
         setData(newData);
     }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const response = axios.post(route('events.store'), {
+            "companyId": "1",
+            "placeId" : "1",
+            "eventTypeId": "1",
+            "name": "test seewruuk 222",
+            "startingAt": "2022-12-15",
+            "ticketPrice": "1.15",
+            "endingAt": "2022-12-15",
+            "artists": []
+        })
+        console.log(response)
+
+    }
 
 
-    return (<form>
+    return (<form onSubmit={handleSubmit}>
             <div className="space-y-12">
 
 
@@ -191,7 +211,8 @@ export default function EventsForm() {
                         wydarzenia.</p>
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-3">
-                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">Nazwa wydarzenia</label>
+                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">Nazwa
+                                wydarzenia</label>
                             <div className="mt-2">
                                 <input
                                     type="text"
@@ -209,7 +230,8 @@ export default function EventsForm() {
                             setSelectedEventType(newValue);
                             handleEventTypeChange(newValue);
                         }}>
-                            <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">Typ wydarzenia</Combobox.Label>
+                            <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">Typ
+                                wydarzenia</Combobox.Label>
                             <div className="relative mt-2">
                                 <Combobox.Input
                                     required={true}
@@ -247,7 +269,6 @@ export default function EventsForm() {
                                 </Combobox.Options>)}
                             </div>
                         </Combobox>
-
 
 
                         <div className="sm:col-span-1 sm:col-start-1">
@@ -328,7 +349,8 @@ export default function EventsForm() {
 
                         <div className="sm:col-span-2">
                             <label htmlFor="datetime-start"
-                                   className="block text-sm font-medium leading-6 text-gray-900">Data rozpoczęcia</label>
+                                   className="block text-sm font-medium leading-6 text-gray-900">Data
+                                rozpoczęcia</label>
                             <div className="mt-2">
                                 <input
                                     required={true}
