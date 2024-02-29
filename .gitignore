@@ -5,7 +5,9 @@
 /storage/*.key
 /vendor
 .env
+package-lock.json
 .env.backup
+composer.lock
 .env.production
 .phpunit.result.cache
 Homestead.json

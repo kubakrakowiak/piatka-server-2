@@ -24,6 +24,9 @@ class StoreEventRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             "companyId" => ['required', 'string'],
+            "placeId" => ['required', 'string'],
+            "ageRestriction" => ['numeric'],
+            "artists" => ['array'],
             "eventTypeId" => ['required', 'string'],
             "startingAt" => ['required', 'date'],
             "endingAt" => ['required', 'date'],
