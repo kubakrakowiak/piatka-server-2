@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreEventTypeRequest;
-use App\Http\Requests\UpdateEventTypeRequest;
+use App\Http\Requests\EventType\StoreEventTypeRequest;
+use App\Http\Requests\EventType\UpdateEventTypeRequest;
 use App\Models\EventType;
 use App\Services\EventTypeServiceInterface;
 

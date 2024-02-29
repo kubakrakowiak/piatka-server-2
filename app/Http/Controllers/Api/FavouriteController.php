@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreFavouriteRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Favourite\StoreFavouriteRequest;
+use Illuminate\Support\Facades\Auth;
 
 class FavouriteController extends Controller
 {

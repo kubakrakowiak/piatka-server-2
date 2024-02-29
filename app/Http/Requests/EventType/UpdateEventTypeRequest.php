@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\EventType;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreFavouriteRequest extends FormRequest
+class UpdateEventTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,20 +22,7 @@ class StoreFavouriteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'event_id' => ['required', 'exists:events,id'],
-        ];
-    }
-
-    /**
-     * Custom message for validation
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'event_id.required' => 'Event ID is required.',
-            'event_id.exists' => 'The selected event does not exist.',
+            'name' => ['string', 'max:255'],
         ];
     }
 }
