@@ -17,11 +17,11 @@ jobs:
     - name: Compile CSS and Javascript
       run: |
         npm install
-        npm run prod
+        npm run build
     - name: Compile CSS and Javascript
       run: |
         npm ci
-        npm run prod
+        npm run build
   
     - name: Configure PHP 8.1
       uses: shivammathur/setup-php@master
