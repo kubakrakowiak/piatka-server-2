@@ -118,9 +118,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ matrix.server.port }}
         envs: GITHUB_SHA,RELEASE_PATH,ACTIVE_RELEASE_PATH,STORAGE_PATH,BASE_PATH
-        script: |
-          ${{ matrix.server.beforeHooks }}
-
 
   activate-release:
     name: "${{ matrix.server.name }}: Activate release"
