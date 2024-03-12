@@ -1,0 +1,11 @@
+[
+    {
+        "name": "server-1",
+        "ip": "164.92.168.57",
+        "username": "root",
+        "passphrase": "",
+        "beforeHooks": "",
+        "afterHooks": "",
+        "path": "path_to_your_project"
+    }
+]
