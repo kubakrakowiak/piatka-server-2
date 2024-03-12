@@ -6,6 +6,6 @@
         "passphrase": "",
         "beforeHooks": "",
         "afterHooks": "",
-        "path": "path_to_your_project"
+        "path": "/var/www/html"
     }
 ]
