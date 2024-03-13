@@ -2,12 +2,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import EventsForm from "@/Components/Admin/EventsForm";
 
-export default function Dashboard({auth, eventTypes, artistsCollection, companiesCollection, event}) {
+export default function Dashboard({auth, eventTypes, artistsCollection, companiesCollection, event, placesCollection}) {
 
     const data = {
         eventTypes: eventTypes,
         artists: artistsCollection,
-        companies: companiesCollection
+        companies: companiesCollection,
+        places: placesCollection,
     }
 
     return (
@@ -18,7 +19,7 @@ export default function Dashboard({auth, eventTypes, artistsCollection, companie
             <Head title="Add New Events"/>
 
             <div>
-                <EventsForm data={data}/>
+                <EventsForm test={data}/>
             </div>
         </AuthenticatedLayout>
     );
