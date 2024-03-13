@@ -9,12 +9,12 @@ use App\Services\ArtistServiceInterface;
 use App\Services\CompanyServiceInterface;
 use App\Services\EventServiceInterface;
 use App\Services\EventTypeServiceInterface;
+use App\Services\PlaceServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Event;
 
 class EventController extends Controller
 {
@@ -24,13 +24,16 @@ class EventController extends Controller
     private EventTypeServiceInterface $eventTypeService;
     private ArtistServiceInterface $artistService;
     private CompanyServiceInterface $companyService;
+    private PlaceServiceInterface $placeService;
 
-    public function __construct(EventServiceInterface $eventService, EventTypeServiceInterface $eventTypeService, ArtistServiceInterface $artistService, CompanyServiceInterface $companyService)
+
+    public function __construct(PlaceServiceInterface $placeService, EventServiceInterface $eventService, EventTypeServiceInterface $eventTypeService, ArtistServiceInterface $artistService, CompanyServiceInterface $companyService)
     {
         $this->eventService = $eventService;
         $this->eventTypeService = $eventTypeService;
         $this->artistService = $artistService;
         $this->companyService = $companyService;
+        $this->placeService = $placeService;
     }
 
     public function index(Request $request): Response
@@ -45,11 +48,13 @@ class EventController extends Controller
         $eventType = $this->eventTypeService->getAllEventTypes();
         $artistsCollection = $this->artistService->getAllArtists();
         $companiesCollection = $this->companyService->getAllCompanies();
+        $placesCollection = $this->placeService->getAllPlaces();
 
         return Inertia::render('AddEventDashboard', [
             'eventTypes' => $eventType,
             'artistsCollection' => $artistsCollection,
-            'companiesCollection' => $companiesCollection
+            'companiesCollection' => $companiesCollection,
+            'placesCollection' => $placesCollection
         ]);
     }
 
@@ -78,7 +83,8 @@ class EventController extends Controller
             $request['companyId'],
             $request['eventTypeId'],
             $request['name'],
-            $request['startingAt'], "2023-01-01",
+            $request['startingAt'],
+            $request['endingAt'],
             $request['placeId'],
             $request['artists'],
             18);
@@ -91,6 +97,12 @@ class EventController extends Controller
         dd($request->validated());
 
         return Redirect::route('profile.edit');
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        $this->eventService->deleteEvent($request['id']);
+        return Redirect::route('events.index');
     }
 
 //    public function showAllEvents(){

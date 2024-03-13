@@ -3,33 +3,6 @@ import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
 import {Combobox} from '@headlessui/react'
 import {useState} from "react";
 
-const places = [{
-    id: 1, name: 'Ulica Elektryków',
-}, {
-    id: 2, name: 'B90',
-}, {
-    id: 3, name: 'Klub Bukszpryt',
-},]
-
-// const eventTypes = [{
-//     id: 1, name: 'Impreza',
-// }, {
-//     id: 2, name: 'Koncert',
-// }, {
-//     id: 3, name: 'Festiwal',
-// },]
-
-// const artistCollection = [{
-//     id: 1, name: "Tycjana"
-// }, {
-//     id: 2, name: "Matt Fresh"
-// }, {
-//     id: 3, name: "Zuza OK"
-// }, {
-//     id: 4, name: "Luz Wixa"
-// }, {
-//     id: 5, name: "hehelol"
-// }]
 
 const musicCollection = [{
     id: 1, name: "Hip-Hop"
@@ -46,13 +19,16 @@ function classNames(...classes) {
 }
 
 
-export default function EventsForm({data}) {
+export default function EventsForm({test}) {
+
+    const requiredState = false;
 
 
-    const [initialData, setInitialData] = useState(data)
+    const [initialData, setInitialData] = useState(test)
 
     const eventTypes = initialData.eventTypes;
     const artistCollection = initialData.artists;
+    const placesCollection = initialData.places;
 
 
     const [query, setQuery] = useState('')
@@ -65,10 +41,32 @@ export default function EventsForm({data}) {
     const [selectedEventType, setSelectedEventType] = useState(null)
     const [selectedMusicTypes, setSelectedMusicTypes] = useState([])
     const [selectedArtists, setSelectedArtists] = useState([]);
+    const [data, setData] = useState({
+        title: '',
+        startDate: '',
+        endDate: '',
+        description: '',
+        premium: false,
+        slug: '',
+        restrictions: {
+            age: false,
+            extra1: false,
+            extra2: false
+        },
+        places: [],
+        artists: [],
+        music: [],
+        address: {
+            city: '',
+            street: '',
+            postalCode: '',
+        },
+        googleMapsLink: ''
+    })
 
 
-    const filteredPlaces = query === '' ? places : places.filter((person) => {
-        return person.name.toLowerCase().includes(query.toLowerCase())
+    const filteredPlaces = query === '' ? placesCollection : placesCollection.filter((item) => {
+        return item.alias.toLowerCase().includes(query.toLowerCase())
     })
 
     const filteredEventTypes = query2 === '' ? eventTypes : eventTypes.filter((item) => {
@@ -95,8 +93,8 @@ export default function EventsForm({data}) {
 
         const newData = {
             ...data, places: Array.isArray(data.places) ? [...data.places, {
-                id: selectedPlace.id, name: selectedPlace.name
-            }] : [{id: selectedPlace.id, name: selectedPlace.name}]
+                id: selectedPlace.id, alias: selectedPlace.alias
+            }] : [{id: selectedPlace.id, alias: selectedPlace.alias}]
         };
         setData(newData);
     }
@@ -186,39 +184,52 @@ export default function EventsForm({data}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = axios.post(route('events.store'), {
+        function formatDate(date) {
+            const d = new Date(date);
+            let month = '' + (d.getMonth() + 1);
+            let day = '' + d.getDate();
+            let year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        const dataToSend = {
             "companyId": "1",
-            "placeId" : "1",
-            "eventTypeId": "1",
-            "name": "test seewruuk 222",
-            "startingAt": "2022-12-15",
+            "placeId": data.places[0].id,
+            "eventTypeId": data.type.id,
+            "name": data.title,
+            "startingAt": formatDate(data.startDate),
             "ticketPrice": "1.15",
-            "endingAt": "2022-12-15",
+            "endingAt": formatDate(data.endDate),
             "artists": []
-        })
-        console.log(response)
+        }
+
+        const response = axios.post(route('events.store'), dataToSend)
+
 
     }
 
 
-    return (<form onSubmit={handleSubmit}>
+    return (
+        <form onSubmit={handleSubmit}>
             <div className="space-y-12">
-
-
                 <div className="border-b border-gray-900/10 pb-12">
                     <h2 className="text-base font-semibold leading-7 text-gray-900">Informacje o wydarzeniu</h2>
                     <p className="mt-1 text-sm leading-6 text-gray-600">Najważniejsze informacje dotyczącey
                         wydarzenia.</p>
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-3">
-                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">Nazwa
-                                wydarzenia</label>
+                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                                Nazwa wydarzenia</label>
                             <div className="mt-2">
                                 <input
                                     type="text"
                                     name="title"
                                     id="title"
-                                    required={true}
+                                    required={requiredState}
                                     onChange={(event) => saveData(event.target.name, event.target.value)}
                                     autoComplete="given-name"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -234,7 +245,7 @@ export default function EventsForm({data}) {
                                 wydarzenia</Combobox.Label>
                             <div className="relative mt-2">
                                 <Combobox.Input
-                                    required={true}
+                                    required={requiredState}
 
                                     className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={(event) => setQuery2(event.target.value)}
@@ -277,7 +288,7 @@ export default function EventsForm({data}) {
                             </label>
                             <div className="mt-2">
                                 <input
-                                    required={true}
+                                    required={requiredState}
 
                                     onChange={(event) => setData({
                                         ...data, address: {...data.address, city: event.target.value}
@@ -353,7 +364,7 @@ export default function EventsForm({data}) {
                                 rozpoczęcia</label>
                             <div className="mt-2">
                                 <input
-                                    required={true}
+                                    required={requiredState}
 
                                     type="datetime-local"
                                     name="datetime-start"
@@ -371,7 +382,7 @@ export default function EventsForm({data}) {
                             </label>
                             <div className="mt-2">
                                 <input
-                                    required={true}
+                                    required={requiredState}
 
                                     type="datetime-local"
                                     name="datetime-end"
@@ -391,11 +402,11 @@ export default function EventsForm({data}) {
                                 className="block text-sm font-medium leading-6 text-gray-900">Miejsce/Miejsca</Combobox.Label>
                             <div className="relative mt-2">
                                 <Combobox.Input
-                                    required={true}
+                                    required={requiredState}
 
                                     className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={(event) => setQuery(event.target.value)}
-                                    displayValue={(x) => x?.name}
+                                    displayValue={(x) => x?.alias}
                                 />
                                 <Combobox.Button
                                     className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -404,24 +415,25 @@ export default function EventsForm({data}) {
 
                                 {filteredPlaces.length > 0 && (<Combobox.Options
                                     className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                    {filteredPlaces.map((item) => (<Combobox.Option
-                                        key={item.id}
-                                        value={item}
-                                        className={({active}) => classNames('relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white' : 'text-gray-900')}
-                                    >
-                                        {({active, selected}) => (<>
-                                            <div className="flex items-center">
+                                    {filteredPlaces.map((item) => (
+                                        <Combobox.Option
+                                            key={item.id}
+                                            value={item}
+                                            className={({active}) => classNames('relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white' : 'text-gray-900')}
+                                        >
+                                            {({active, selected}) => (<>
+                                                <div className="flex items-center">
                                                             <span
-                                                                className={classNames('truncate', selected && 'font-semibold')}>{item.name}</span>
-                                            </div>
+                                                                className={classNames('truncate', selected && 'font-semibold')}>{item.alias}</span>
+                                                </div>
 
-                                            {selected && (<span
-                                                className={classNames('absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600')}
-                                            >
+                                                {selected && (<span
+                                                    className={classNames('absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600')}
+                                                >
                         <CheckIcon className="h-5 w-5" aria-hidden="true"/>
                       </span>)}
-                                        </>)}
-                                    </Combobox.Option>))}
+                                            </>)}
+                                        </Combobox.Option>))}
                                 </Combobox.Options>)}
                             </div>
                         </Combobox>
@@ -438,7 +450,7 @@ export default function EventsForm({data}) {
                                     return (<button type="button"
                                                     onClick={() => removePlaceFromPlacesArray(place.id)}
                                                     className="rounded-full bg-indigo-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                        {place.name}
+                                        {place.alias}
                                     </button>)
                                 })}
                             </div>
@@ -461,7 +473,7 @@ export default function EventsForm({data}) {
                                     <span
                                         className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">piatka.com/event/</span>
                                     <input
-                                        required={true}
+                                        required={requiredState}
                                         type="text"
                                         name="slug"
                                         id="slug"
@@ -481,7 +493,7 @@ export default function EventsForm({data}) {
                             </label>
                             <div className="mt-2">
                                 <textarea
-                                    required={true}
+                                    required={requiredState}
 
                                     id="description"
                                     name="description"
@@ -529,7 +541,7 @@ export default function EventsForm({data}) {
                                     className="block text-sm font-medium leading-6 text-gray-900">Artyści</Combobox.Label>
                                 <div className="relative mt-2">
                                     <Combobox.Input
-                                        required={true}
+                                        required={requiredState}
 
                                         className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         onChange={(event) => setArtistsQuerry(event.target.value)}
@@ -597,7 +609,7 @@ export default function EventsForm({data}) {
                                     className="block text-sm font-medium leading-6 text-gray-900">Muzyka</Combobox.Label>
                                 <div className="relative mt-2">
                                     <Combobox.Input
-                                        required={true}
+                                        required={requiredState}
 
                                         className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         onChange={(event) => setMusicQuerry(event.target.value)}
@@ -735,7 +747,7 @@ export default function EventsForm({data}) {
                                         id="premium-event"
                                         name="event-label"
                                         type="radio"
-                                        required={true}
+                                        required={requiredState}
                                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         onChange={(event) => saveData(event.target.id, null)}
 
@@ -751,7 +763,7 @@ export default function EventsForm({data}) {
                                         id="regular-event"
                                         name="event-label"
                                         type="radio"
-                                        required={true}
+                                        required={requiredState}
 
                                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         onChange={(event) => saveData(event.target.id, null)}
