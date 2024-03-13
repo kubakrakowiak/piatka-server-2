@@ -3,8 +3,6 @@ name: Laravel Deploy
 on:
   push:
     branches: [ "development" ]
-  pull_request:
-    branches: [ "development" ]
 
 jobs:
   create-deployment-artifacts:
