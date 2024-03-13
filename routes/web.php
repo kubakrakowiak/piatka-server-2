@@ -50,6 +50,8 @@ Route::patch('/events/{id}', [\App\Http\Controllers\Web\EventController::class, 
 
 Route::post('/events', [\App\Http\Controllers\Web\EventController::class, 'store'])->middleware(['auth', 'verified'])->name('events.store');
 
+Route::delete('/events/{id}', [\App\Http\Controllers\Web\EventController::class, 'destroy'])->middleware(['auth', 'verified'])->name('events.destroy');
+
 
 
 
