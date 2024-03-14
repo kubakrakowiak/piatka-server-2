@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import EventsForm from "@/Components/Admin/EventsForm";
 
-export default function Dashboard({auth, eventTypes, artistsCollection, companiesCollection, event, placesCollection}) {
+export default function Dashboard({auth, eventTypes, artistsCollection, companiesCollection, event, placesCollection, eventToEdit }) {
 
     const data = {
         eventTypes: eventTypes,

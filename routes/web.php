@@ -54,6 +54,10 @@ Route::delete('/events/{id}', [\App\Http\Controllers\Web\EventController::class,
 
 
 
+Route::get('/companies', [\App\Http\Controllers\Web\CompanyController::class, 'index'])->middleware(['auth', 'verified'])->name('company.index');
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [\App\Http\Controllers\Web\Admin\HomeController::class, 'index'])->name('admin');

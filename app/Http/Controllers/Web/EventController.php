@@ -92,11 +92,17 @@ class EventController extends Controller
         return Redirect::route('events.index');
     }
 
-    public function update(UpdateEventRequest $request): RedirectResponse
+    public function update(UpdateEventRequest $request): Response
     {
-        dd($request->validated());
 
-        return Redirect::route('profile.edit');
+        $request->validated();
+        $event = $this->eventService->getEventById($request['id']);
+
+        return Inertia::render('AddEventDashboard', [
+            'eventToEdit' => $event
+        ]);
+
+
     }
 
     public function destroy(Request $request): RedirectResponse

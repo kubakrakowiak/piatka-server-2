@@ -16,7 +16,7 @@ import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/react/20/solid'
 
 const navigation = [
     {name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false},
-    { name: 'Organizatorzy', href: '#', icon: UsersIcon, current: false },
+    { name: 'Organizatorzy', href: '/companies', icon: UsersIcon, current: false },
     // { name: 'Projects', href: '#', icon: FolderIcon, current: false },
     {name: 'Wydarzenia', href: '/events', icon: CalendarIcon, current: false},
     // { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },

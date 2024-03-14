@@ -30,6 +30,10 @@ export default function Page({auth, events}) {
         }
     }
 
+    const handleEditEvent = async (id) => {
+        const response = await axios.get(route('events.update', {id}));
+    }
+
 
 
     const buttonVariants = {
@@ -64,6 +68,10 @@ export default function Page({auth, events}) {
             </svg>
         )
     }
+
+
+
+
 
 
     return (
@@ -149,10 +157,12 @@ export default function Page({auth, events}) {
                                                     </td>
                                                     <td className="py-5 text-right">
                                                         <div className="flex justify-end">
-                                                            <a href="#"
-                                                               className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">
+                                                            <button
+                                                               className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
+                                                                onClick={() => handleEditEvent(item.id)}
+                                                            >
                                                                 Edytuj
-                                                            </a>
+                                                            </button>
                                                             <button type="button"
                                                                     className="ml-3 text-sm font-medium leading-6 text-red-600 hover:text-red-500"
                                                                 onClick={() => removeEventFromDatabase(item.id)}
