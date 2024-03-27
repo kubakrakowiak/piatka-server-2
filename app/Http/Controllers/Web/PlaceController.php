@@ -26,7 +26,7 @@ class PlaceController extends Controller
 
     public function index(Request $request) : Response
     {
-        return Inertia::render('Places' , [
+        return Inertia::render('Admin/Places' , [
             'places' => $this->placeService->getAllPlaces()
         ]);
     }

@@ -24,7 +24,7 @@ class CompanyController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Companies', [
+        return Inertia::render('Admin/Companies', [
             'companies' => $this->companyService->getAllCompanies()
         ]);
     }

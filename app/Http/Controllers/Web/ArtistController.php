@@ -26,7 +26,7 @@ class ArtistController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Artists', [
+        return Inertia::render('Admin/Artists', [
             'artists' => $this->artistService->getAllArtists()
         ]);
     }

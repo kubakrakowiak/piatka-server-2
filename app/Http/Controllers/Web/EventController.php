@@ -38,7 +38,7 @@ class EventController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Events', [
+        return Inertia::render('Admin/Events', [
             'events' => $this->eventService->getAllEvents()
         ]);
     }
