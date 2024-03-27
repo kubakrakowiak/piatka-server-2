@@ -26,6 +26,8 @@ const navigation = [
     { name: 'Miejsca', href: '/places', icon: MapPinIcon, current: false },
     { name: 'Artyści', href: '/artists', icon: IdentificationIcon, current: false },
     { name: 'Rodzaje wydarzeń', href: '/event-types', icon: ShareIcon, current: false },
+    { name: 'Organizatorzy', href: '#', icon: UsersIcon, current: false },
+    { name: 'Uzytkownicy', href: '/users', icon: UsersIcon, current: false },
 ]
 const teams = [
     {id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false},

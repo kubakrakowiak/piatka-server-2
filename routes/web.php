@@ -72,6 +72,9 @@ Route::get('/places/add', [\App\Http\Controllers\Web\PlaceController::class, 'cr
 Route::post('/places/add', [\App\Http\Controllers\Web\PlaceController::class, 'store'])->middleware(['auth', 'verified'])->name('place.store');
 Route::delete('/places/{id}', [\App\Http\Controllers\Web\PlaceController::class, 'destroy'])->middleware(['auth', 'verified'])->name('place.destroy');
 
+Route::prefix('users')->middleware('auth')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Web\Admin\UserController::class, 'index'])->name('users.index');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [\App\Http\Controllers\Web\Admin\HomeController::class, 'index'])->name('admin');
