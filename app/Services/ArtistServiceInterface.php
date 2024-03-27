@@ -7,7 +7,7 @@ use App\Models\User;
 
 interface ArtistServiceInterface
 {
-    public function createArtist(mixed $validated): Artist;
+    public function createArtist(string $name, string $imageId): Artist;
 
     public function getAllArtists();
 

@@ -39,24 +39,34 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
+//events
 Route::get('/events/add', [\App\Http\Controllers\Web\EventController::class, 'create'])->middleware(['auth', 'verified'])->name('test');
-
 Route::get('/events', [\App\Http\Controllers\Web\EventController::class, 'index'])->middleware(['auth', 'verified'])->name('events.index');
-
 Route::get('/events/{id}', [\App\Http\Controllers\Web\EventController::class, 'edit'])->middleware(['auth', 'verified'])->name('events-form');
-
 Route::patch('/events/{id}', [\App\Http\Controllers\Web\EventController::class, 'update'])->middleware(['auth', 'verified'])->name('events.update');
-
 Route::post('/events', [\App\Http\Controllers\Web\EventController::class, 'store'])->middleware(['auth', 'verified'])->name('events.store');
-
 Route::delete('/events/{id}', [\App\Http\Controllers\Web\EventController::class, 'destroy'])->middleware(['auth', 'verified'])->name('events.destroy');
 
 
-
+//companies
 Route::get('/companies', [\App\Http\Controllers\Web\CompanyController::class, 'index'])->middleware(['auth', 'verified'])->name('company.index');
+Route::get('/companies/add', [\App\Http\Controllers\Web\CompanyController::class, 'create'])->middleware(['auth', 'verified'])->name('company.create');
+Route::post('/companies/add', [\App\Http\Controllers\Web\CompanyController::class, 'store'])->middleware(['auth', 'verified'])->name('company.store');
+Route::delete('/companies/{id}', [\App\Http\Controllers\Web\CompanyController::class, 'destroy'])->middleware(['auth', 'verified'])->name('company.destroy');
+
+//artists
+Route::get('/artists', [\App\Http\Controllers\Web\ArtistController::class, 'index'])->middleware(['auth', 'verified'])->name('artist.index');
+Route::get('/artists/add', [\App\Http\Controllers\Web\ArtistController::class, 'create'])->middleware(['auth', 'verified'])->name('artist.create');
+Route::post('/artists/add', [\App\Http\Controllers\Web\ArtistController::class, 'store'])->middleware(['auth', 'verified'])->name('artist.store');
+Route::delete('/artists/{id}', [\App\Http\Controllers\Web\ArtistController::class, 'destroy'])->middleware(['auth', 'verified'])->name('artist.destroy');
+Route::get('/artists/{id}', [\App\Http\Controllers\Web\ArtistController::class, 'edit'])->middleware(['auth', 'verified'])->name('artist.edit');
 
 
+//places
+Route::get('/places', [\App\Http\Controllers\Web\PlaceController::class, 'index'])->middleware(['auth', 'verified'])->name('place.index');
+Route::get('/places/add', [\App\Http\Controllers\Web\PlaceController::class, 'create'])->middleware(['auth', 'verified'])->name('place.create');
+Route::post('/places/add', [\App\Http\Controllers\Web\PlaceController::class, 'store'])->middleware(['auth', 'verified'])->name('place.store');
+Route::delete('/places/{id}', [\App\Http\Controllers\Web\PlaceController::class, 'destroy'])->middleware(['auth', 'verified'])->name('place.destroy');
 
 
 Route::middleware('auth')->group(function () {

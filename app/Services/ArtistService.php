@@ -12,10 +12,16 @@ use Carbon\Carbon;
 
 class ArtistService implements ArtistServiceInterface
 {
-    public function createArtist(mixed $validated): Artist
+    public function createArtist(
+        string $name,
+        string $imageId,
+    ): Artist
     {
-        $artist = Artist::factory()->create($validated);
-
+        $artist = Artist::factory()->create([
+            'name' => $name,
+            'image_id' => $imageId,
+        ]);
+        $artist->save();
         return $artist;
     }
 

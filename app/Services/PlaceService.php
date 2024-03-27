@@ -13,11 +13,12 @@ use Carbon\Carbon;
 class PlaceService implements PlaceServiceInterface
 {
 
-    public function createPlace(string $name, string $imageUrl): Place
+    public function createPlace(string $alias, string $x_coord, string $y_coord): Place
     {
         $place = Place::factory()->create([
-            'name' => $name,
-            'image_url' => $imageUrl,
+            'alias' => $alias,
+            'x_coord' => $x_coord,
+            'y_coord' => $y_coord,
         ]);
 
         return $place;

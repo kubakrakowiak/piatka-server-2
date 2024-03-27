@@ -11,16 +11,21 @@ import {
     HomeIcon,
     UsersIcon,
     XMarkIcon,
+    MapPinIcon,
+    CalendarDaysIcon,
+    UserCircleIcon,
+    IdentificationIcon,
+    ShareIcon
 } from '@heroicons/react/24/outline'
 import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/react/20/solid'
 
 const navigation = [
     {name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false},
+    {name: 'Wydarzenia', href: '/events', icon: CalendarDaysIcon, current: false},
     { name: 'Organizatorzy', href: '/companies', icon: UsersIcon, current: false },
-    // { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-    {name: 'Wydarzenia', href: '/events', icon: CalendarIcon, current: false},
-    // { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-    // { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+    { name: 'Miejsca', href: '/places', icon: MapPinIcon, current: false },
+    { name: 'Artyści', href: '/artists', icon: IdentificationIcon, current: false },
+    { name: 'Rodzaje wydarzeń', href: '/event-types', icon: ShareIcon, current: false },
 ]
 const teams = [
     {id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false},

@@ -60,7 +60,6 @@ class EventController extends Controller
 
     public function edit(Request $request): Response
     {
-//        dd($request['id']);
 
         $eventType = $this->eventTypeService->getAllEventTypes();
         $artistsCollection = $this->artistService->getAllArtists();
