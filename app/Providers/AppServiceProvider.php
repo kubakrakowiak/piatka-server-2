@@ -12,6 +12,8 @@ use App\Services\EventTypeService;
 use App\Services\EventTypeServiceInterface;
 use App\Services\PlaceService;
 use App\Services\PlaceServiceInterface;
+use App\Services\UserService;
+use App\Services\UserServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ArtistServiceInterface::class, ArtistService::class);
         $this->app->bind(PlaceServiceInterface::class, PlaceService::class);
         $this->app->bind(EventTypeServiceInterface::class, EventTypeService::class);
+        $this->app->bind(UserServiceInterface::class, UserService::class);
     }
 
     /**

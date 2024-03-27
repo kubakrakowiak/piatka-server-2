@@ -19,7 +19,7 @@ const navigation = [
     { name: 'Organizatorzy', href: '#', icon: UsersIcon, current: false },
     // { name: 'Projects', href: '#', icon: FolderIcon, current: false },
     {name: 'Wydarzenia', href: '/events', icon: CalendarIcon, current: false},
-    // { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
+    { name: 'Uzytkownicy', href: '/users', icon: UsersIcon, current: false },
     // { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
 ]
 const teams = [
