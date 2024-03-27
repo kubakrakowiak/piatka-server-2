@@ -33,6 +33,10 @@ Route::get('/', function () {
 //});
 
 
+Route::prefix('users')->middleware(['auth'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\Web\Admin\UserController::class, 'index'])->name('users.index');
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
