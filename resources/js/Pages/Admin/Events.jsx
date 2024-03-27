@@ -1,11 +1,13 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, router} from '@inertiajs/react';
-import {Inertia} from '@inertiajs/inertia'
+import {Head} from '@inertiajs/react';
 import Header from "@/Components/Header/Header";
 import EventList from "@/Components/Events/EventList";
 
 
 export default function Page({auth, events}) {
+
+
+    console.log(events)
 
 
     return (

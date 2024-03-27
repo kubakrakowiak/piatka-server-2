@@ -2,34 +2,42 @@ import {useState} from "react";
 import {PhotoIcon} from "@heroicons/react/24/solid";
 import {Inertia} from "@inertiajs/inertia";
 
-export default function ArtistsForm({artist}) {
+export default function ArtistsForm({artist, type}) {
 
-    const [data, setData] = useState({
-        name: '',
-        logo: '',
+
+    const [initialData, setInitialData] = useState(artist ? {
+        name: artist.name,
+    } : {
+        name: "",
     });
 
-    const artistToEdit = artist ? artist : null;
-    console.log(artistToEdit)
 
     let requiredState = false;
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
 
-        function createUuid() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                var r = Math.random() * 16 | 0,
-                    v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
+        if (type === "create") {
+            function createUuid() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                    var r = Math.random() * 16 | 0,
+                        v = c === 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            }
+
+            Inertia.post(route('artist.store', {
+                name: initialData.name,
+                imageId: "1188b2c5-53d7-4dde-bc81-50a87d7c1ea0"
+            }))
+        } else if (type === "edit") {
+            Inertia.patch(route('artist.update', {id: artist.id}), {
+                name: initialData.name,
+                imageId: "1188b2c5-53d7-4dde-bc81-50a87d7c1ea0"
+            })
+
         }
-
-        Inertia.post(route('artist.store', {
-            name: data.name,
-            imageId: "1188b2c5-53d7-4dde-bc81-50a87d7c1ea0"
-        }))
-
     }
 
 
@@ -56,8 +64,11 @@ export default function ArtistsForm({artist}) {
                                             name="title"
                                             id="title"
                                             required={requiredState}
-                                            value={data.name}
-                                            onChange={(event) => setData({...data, name: event.target.value})}
+                                            value={initialData.name}
+                                            onChange={(event) => setInitialData({
+                                                ...initialData,
+                                                name: event.target.value
+                                            })}
                                             autoComplete="given-name"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -95,17 +106,21 @@ export default function ArtistsForm({artist}) {
                         {/*<button type="button" className="text-sm font-semibold leading-6 text-gray-900">*/}
                         {/*    Odrzuć*/}
                         {/*</button>*/}
+
+
                         <button
                             type="submit"
                             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Dodaj artyste
                         </button>
+
+
                     </div>
 
                     <div>
                 <pre>
-                        {JSON.stringify(data, null, 2)}
+                        {JSON.stringify(initialData, null, 2)}
                 </pre>
                     </div>
 

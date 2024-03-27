@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, router} from '@inertiajs/react';
-export default function Page({auth, artists}) {
-    console.log(artists)
+import ArtistsForm from "@/Components/Admin/ArtistsForm";
+export default function Page({auth, artist}) {
 
     return (
         <>
@@ -11,6 +11,8 @@ export default function Page({auth, artists}) {
             >
                 <Head title="Artyści"/>
 
+
+                <ArtistsForm artist={artist} type={"edit"}/>
 
 
 

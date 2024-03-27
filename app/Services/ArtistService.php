@@ -32,9 +32,11 @@ class ArtistService implements ArtistServiceInterface
 
     public function updateArtist(mixed $validated, string $id): Artist
     {
+
         $artist = Artist::findOrFail($id);
 
         $artist->update($validated);
+
 
         return $artist;
     }

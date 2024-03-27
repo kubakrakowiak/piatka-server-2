@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Artist\StoreArtistRequest;
+use App\Http\Requests\Artist\UpdateArtistRequest;
 use App\Services\ArtistServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -69,7 +70,7 @@ class ArtistController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('EditPlaceHolder', [
+        return Inertia::render('Admin/Update/EditPlaceHolder', [
             'artist' => $this->artistService->getArtistById($request['id'])
         ]);
 
@@ -78,9 +79,16 @@ class ArtistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateArtistRequest $request, string $id) : RedirectResponse
     {
-        //
+
+        $this->artistService->updateArtist(
+            $request->validated(),
+            $id,
+        );
+
+
+        return Redirect::route('artist.index');
     }
 
     /**

@@ -12,7 +12,7 @@ export default function AddArtistDashboard({auth}) {
             >
                 <Head title="Nowy Artysta"/>
 
-                <ArtistsForm/>
+                <ArtistsForm type={"create"}/>
 
             </AuthenticatedLayout>
         </>

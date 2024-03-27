@@ -2,8 +2,6 @@ import {Inertia} from "@inertiajs/inertia";
 
 export default function List({data, target}) {
 
-
-
     return (
         <>
             <div className="flex flex-col">
