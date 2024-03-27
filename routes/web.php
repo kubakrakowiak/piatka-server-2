@@ -53,7 +53,7 @@ Route::post('/events', [\App\Http\Controllers\Web\EventController::class, 'store
 Route::delete('/events/{id}', [\App\Http\Controllers\Web\EventController::class, 'destroy'])->middleware(['auth', 'verified'])->name('events.destroy');
 
 
-Route::prefix('users')->middleware('auth')->group(function () {
+Route::prefix('users')->middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\Web\Admin\UserController::class, 'index'])->name('users.index');
 });
 
