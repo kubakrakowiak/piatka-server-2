@@ -12,12 +12,12 @@ export default function Page({auth, users}) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Uzytkownicy</h2>}
         >
-            <Head title="Wydarzenia"/>
+            <Head title="Uzytkownicy"/>
 
 
             <Header target={"users"} data={users} title={"Uzytkownicy"}/>
 
-            <List data={users} target={"users"}/>
+            <List data={users} target={"users"} changePermission={true}/>
 
         </AuthenticatedLayout>
     );

@@ -22,6 +22,11 @@ class UserService implements UserServiceInterface
         return User::findOrFail($userId);
     }
 
+    public function getAuthenticatedUser()
+    {
+        return auth()->user();
+    }
+
     public function attachCompanyRole(string $userId, string $companyId, string $role): User
     {
         $user = User::findOrFail($userId);

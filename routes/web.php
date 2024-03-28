@@ -87,6 +87,7 @@ Route::prefix('places')->middleware(['auth', 'verified'])->group(function () {
 // Users
 Route::prefix('users')->middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\Web\Admin\UserController::class, 'index'])->name('users.index');
+    Route::get('/permissions/{id}', [\App\Http\Controllers\Web\Admin\UserController::class, 'showPermissions'])->name('users.permissions');
 });
 
 

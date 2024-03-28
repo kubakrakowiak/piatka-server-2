@@ -24,4 +24,15 @@ class UserController extends Controller
         ]);
     }
 
+    public function showPermissions()
+    {
+        $user = $this->userService->getAuthenticatedUser();
+        $user->load('companies', 'roles');
+        return Inertia::render('Admin/UserPermissions', [
+            'user' => $user,
+            'systemRoles' => $user->roles,
+            'companies' => $user->companies
+        ]);
+    }
+
 }
