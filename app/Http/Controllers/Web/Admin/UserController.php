@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Enums\CompanyRoleName;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Services\UserServiceInterface;
@@ -30,8 +31,9 @@ class UserController extends Controller
         $user->load('companies', 'roles');
         return Inertia::render('Admin/UserPermissions', [
             'user' => $user,
-            'systemRoles' => $user->roles,
-            'companies' => $user->companies
+            'userSystemRoles' => $user->roles,
+            'userCompanies' => $user->companies,
+            'companyRoles' => CompanyRoleName::values(),
         ]);
     }
 

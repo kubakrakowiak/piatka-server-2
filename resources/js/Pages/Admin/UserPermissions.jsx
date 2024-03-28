@@ -5,23 +5,23 @@ import List from "@/Components/Events/List";
 import {useState} from "react";
 
 
-export default function Page({auth, user, systemRoles, companies}) {
+export default function Page({auth, user, userSystemRoles, userCompanies, companyRoles}) {
 
     const [isSystemPermissionModalOpen, setIsSystemPermissionModalOpen] = useState(false);
     const [isCompanyPermissionModalOpen, setIsCompanyPermissionModalOpen] = useState(false);
 
     const toggleSystemPermissionModal = () => setIsSystemPermissionModalOpen(!isSystemPermissionModalOpen);
     const toggleCompanyPermissionModal = () => setIsCompanyPermissionModalOpen(!isCompanyPermissionModalOpen);
-
+console.log(companyRoles)
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Uprawnienia</h2>}
         >
-            <Head title="Uprawnienia Uzytkownika"/>
+            <Head title={"Uprawnienia Uzytkownika" + user.name}/>
 
 
-            <Header target={"users"} title={"Uprawnienia Uzytkownika"}/>
+            <Header target={"users"} title={"Uprawnienia Uzytkownika " + user.name}/>
             <div className="flex flex-row items-center">
                 <div className="flex-1 p-4">
                     <div className="flex items-center justify-between">
@@ -34,7 +34,7 @@ export default function Page({auth, user, systemRoles, companies}) {
                         </button>
                     </div>
                     <ul>
-                        {systemRoles.map((role, index) => (
+                        {userSystemRoles.map((role, index) => (
                             <li key={index}>{role.name}</li>
                         ))}
                     </ul>
@@ -52,7 +52,7 @@ export default function Page({auth, user, systemRoles, companies}) {
                             Dodaj
                         </button>
                         <ul>
-                            {companies.map((company, index) => (
+                            {userCompanies.map((company, index) => (
                                 <li key={index}>{company.name} {company.pivot.role_name}</li>
                             ))}
                         </ul>
