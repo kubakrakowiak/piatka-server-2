@@ -10,6 +10,7 @@ use App\Services\CompanyServiceInterface;
 use App\Services\EventServiceInterface;
 use App\Services\EventTypeServiceInterface;
 use App\Services\PlaceServiceInterface;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -75,9 +76,13 @@ class EventController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function store(StoreEventRequest $request): RedirectResponse
     {
-//        dd($request);
+        $this->authorize('addEvent', $this->companyService->getCompanyById($request['companyId']));
+
         $request->validated();
         $this->eventService->createEvent(
             $request['companyId'],

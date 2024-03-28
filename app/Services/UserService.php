@@ -21,4 +21,18 @@ class UserService implements UserServiceInterface
     {
         return User::findOrFail($userId);
     }
+
+    public function attachCompanyRole(string $userId, string $companyId, string $role): User
+    {
+        $user = User::findOrFail($userId);
+        $company = Company::findOrFail($companyId);
+        $user->companies()->attach($company, ['role_name' => $role]);
+        return $user;
+    }
+
+    public function getUserCompanyPermission($userId, $companyId){
+        $user = User::findOrFail($userId);
+
+        return $user->companies()->where('company_id', $companyId)->first()->pivot->role_name;
+    }
 }

@@ -56,4 +56,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class, 'event_user_participations');
     }
 
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_user')
+            ->withPivot('role_name')
+            ->withTimestamps();
+    }
+
 }
