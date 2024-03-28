@@ -10,6 +10,7 @@ use App\Services\CompanyServiceInterface;
 use App\Services\EventServiceInterface;
 use App\Services\EventTypeServiceInterface;
 use App\Services\PlaceServiceInterface;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -38,7 +39,7 @@ class EventController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Events', [
+        return Inertia::render('Admin/Events', [
             'events' => $this->eventService->getAllEvents()
         ]);
     }
@@ -60,7 +61,6 @@ class EventController extends Controller
 
     public function edit(Request $request): Response
     {
-//        dd($request['id']);
 
         $eventType = $this->eventTypeService->getAllEventTypes();
         $artistsCollection = $this->artistService->getAllArtists();
@@ -75,9 +75,13 @@ class EventController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function store(StoreEventRequest $request): RedirectResponse
     {
-//        dd($request);
+        $this->authorize('addEvent', $this->companyService->getCompanyById($request['companyId']));
+
         $request->validated();
         $this->eventService->createEvent(
             $request['companyId'],
@@ -92,11 +96,17 @@ class EventController extends Controller
         return Redirect::route('events.index');
     }
 
-    public function update(UpdateEventRequest $request): RedirectResponse
+    public function update(UpdateEventRequest $request): Response
     {
-        dd($request->validated());
 
-        return Redirect::route('profile.edit');
+        $request->validated();
+        $event = $this->eventService->getEventById($request['id']);
+
+        return Inertia::render('AddEventDashboard', [
+            'eventToEdit' => $event
+        ]);
+
+
     }
 
     public function destroy(Request $request): RedirectResponse
