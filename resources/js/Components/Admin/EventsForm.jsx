@@ -124,6 +124,8 @@ export default function EventsForm({test}) {
     }
 
 
+
+
     const saveData = (name, value) => {
         switch (name) {
             case 'title':

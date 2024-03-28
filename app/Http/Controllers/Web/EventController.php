@@ -39,7 +39,7 @@ class EventController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Events', [
+        return Inertia::render('Admin/Events', [
             'events' => $this->eventService->getAllEvents()
         ]);
     }
@@ -61,7 +61,6 @@ class EventController extends Controller
 
     public function edit(Request $request): Response
     {
-//        dd($request['id']);
 
         $eventType = $this->eventTypeService->getAllEventTypes();
         $artistsCollection = $this->artistService->getAllArtists();
@@ -97,11 +96,17 @@ class EventController extends Controller
         return Redirect::route('events.index');
     }
 
-    public function update(UpdateEventRequest $request): RedirectResponse
+    public function update(UpdateEventRequest $request): Response
     {
-        dd($request->validated());
 
-        return Redirect::route('profile.edit');
+        $request->validated();
+        $event = $this->eventService->getEventById($request['id']);
+
+        return Inertia::render('AddEventDashboard', [
+            'eventToEdit' => $event
+        ]);
+
+
     }
 
     public function destroy(Request $request): RedirectResponse
