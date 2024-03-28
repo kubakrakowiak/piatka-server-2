@@ -8,8 +8,9 @@ use App\Models\User;
 interface PlaceServiceInterface
 {
     public function createPlace(
-        string $name,
-        string $imageUrl
+        string $alias,
+        string $x_coord,
+        string $y_coord
     ): Place;
 
     public function getAllPlaces();
