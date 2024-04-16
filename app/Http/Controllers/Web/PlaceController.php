@@ -26,14 +26,17 @@ class PlaceController extends Controller
 
     public function index(Request $request) : Response
     {
-        return Inertia::render('Admin/Places' , [
-            'places' => $this->placeService->getAllPlaces()
+        return Inertia::render('Admin/Table' , [
+            'itemType' => 'place',
+            'data' => $this->placeService->getAllPlaces()
         ]);
     }
 
     public function create(Request $request) : Response
     {
-        return Inertia::render('AddPlaceDashboard');
+        return Inertia::render('AddItem', [
+            'itemType' => 'place'
+        ]);
     }
 
     public function store(StorePlaceRequest $request) : RedirectResponse

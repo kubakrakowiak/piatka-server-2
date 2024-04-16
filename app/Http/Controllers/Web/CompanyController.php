@@ -24,14 +24,17 @@ class CompanyController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Admin/Companies', [
-            'companies' => $this->companyService->getAllCompanies()
+        return Inertia::render('Admin/Table', [
+            'itemType' => 'company',
+            'data' => $this->companyService->getAllCompanies()
         ]);
     }
 
     public function create(Request $request): Response
     {
-        return Inertia::render('AddComapnyDashboard');
+        return Inertia::render('AddItem', [
+            "itemType" => "company"
+        ]);
     }
 
     public function store(StoreCompanyRequest $request): RedirectResponse
@@ -45,6 +48,7 @@ class CompanyController extends Controller
 
         return Redirect::route('company.index');
     }
+
     public function destroy(string $id): RedirectResponse
     {
         $this->companyService->deleteCompany($id);

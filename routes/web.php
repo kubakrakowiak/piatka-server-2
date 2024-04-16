@@ -43,17 +43,18 @@ Route::get('/dashboard', function () {
 
 // Events
 Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/add', [\App\Http\Controllers\Web\EventController::class, 'create'])->name('test');
-    Route::get('/', [\App\Http\Controllers\Web\EventController::class, 'index'])->name('events.index');
-    Route::get('/{id}', [\App\Http\Controllers\Web\EventController::class, 'edit'])->name('events-form');
-    Route::patch('/{id}', [\App\Http\Controllers\Web\EventController::class, 'update'])->name('events.update');
-    Route::post('/', [\App\Http\Controllers\Web\EventController::class, 'store'])->name('events.store');
-    Route::delete('/{id}', [\App\Http\Controllers\Web\EventController::class, 'destroy'])->name('events.destroy');
+    Route::get('/add', [\App\Http\Controllers\Web\EventController::class, 'create'])->name('event.create');
+    Route::get('/', [\App\Http\Controllers\Web\EventController::class, 'index'])->name('event.index');
+    Route::get('/{id}', [\App\Http\Controllers\Web\EventController::class, 'edit'])->name('event-form');
+    Route::patch('/{id}', [\App\Http\Controllers\Web\EventController::class, 'update'])->name('event.update');
+    Route::post('/', [\App\Http\Controllers\Web\EventController::class, 'store'])->name('event.store');
+    Route::delete('/{id}', [\App\Http\Controllers\Web\EventController::class, 'destroy'])->name('event.destroy');
 });
 
 // Event-Types
 Route::prefix('event-types')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', [\App\Http\Controllers\Web\EventTypeController::class, 'index'])->name('events.index');
+    Route::get('/', [\App\Http\Controllers\Web\EventTypeController::class, 'index'])->name('event-type.index');
+    Route::get('/add', [\App\Http\Controllers\Web\EventTypeController::class, 'create'])->name('event-type.create');
 });
 
 
@@ -86,7 +87,8 @@ Route::prefix('places')->middleware(['auth', 'verified'])->group(function () {
 
 // Users
 Route::prefix('users')->middleware(['auth'])->group(function () {
-    Route::get('/', [\App\Http\Controllers\Web\Admin\UserController::class, 'index'])->name('users.index');
+    Route::get('/', [\App\Http\Controllers\Web\Admin\UserController::class, 'index'])->name('user.index');
+    Route::get('/add', [\App\Http\Controllers\Web\Admin\UserController::class, 'create'])->name('user.create');
 });
 
 

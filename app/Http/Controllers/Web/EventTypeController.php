@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\EventTypeServiceInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 
 class EventTypeController extends Controller
@@ -22,17 +23,21 @@ class EventTypeController extends Controller
 
     public function index()
     {
-        return Inertia::render('Admin/EventTypes', [
-            'eventTypes' => $this->eventTypeService->getAllEventTypes()
+        return Inertia::render('Admin/Table', [
+            'itemType' => 'event-type',
+            'data' => $this->eventTypeService->getAllEventTypes()
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request): Response
     {
-        //
+        return Inertia::render('AddItem' , [
+            'itemType' => 'event-type'
+        ]);
+
     }
 
     /**
@@ -43,7 +48,7 @@ class EventTypeController extends Controller
         //
     }
 
-    /**
+    /**0
      * Display the specified resource.
      */
     public function show(string $id)

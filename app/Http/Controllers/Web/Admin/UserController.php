@@ -19,8 +19,15 @@ class UserController extends Controller
 
     public function index()
     {
-        return Inertia::render('Admin/Users', [
-            'users' => $this->userService->getAllUsers()
+        return Inertia::render('Admin/Table', [
+            'itemType' => 'user',
+            'data' => $this->userService->getAllUsers()
+        ]);
+    }
+    public function create()
+    {
+        return Inertia::render('AddItem', [
+            'itemType' => 'user'
         ]);
     }
 

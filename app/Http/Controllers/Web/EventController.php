@@ -50,7 +50,8 @@ class EventController extends Controller
         $companiesCollection = $this->companyService->getAllCompanies();
         $placesCollection = $this->placeService->getAllPlaces();
 
-        return Inertia::render('AddEventDashboard', [
+        return Inertia::render('AddItem', [
+            'itemType' => 'event',
             'eventTypes' => $eventType,
             'artistsCollection' => $artistsCollection,
             'companiesCollection' => $companiesCollection,

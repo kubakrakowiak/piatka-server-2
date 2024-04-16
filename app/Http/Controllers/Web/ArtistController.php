@@ -27,8 +27,9 @@ class ArtistController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Admin/Artists', [
-            'artists' => $this->artistService->getAllArtists()
+        return Inertia::render('Admin/Table', [
+            'itemType' => 'artist',
+            'data' => $this->artistService->getAllArtists()
         ]);
     }
 
@@ -37,7 +38,9 @@ class ArtistController extends Controller
      */
     public function create()
     {
-        return Inertia::render('AddArtistDashboard');
+        return Inertia::render('AddItem', [
+            'itemType' => 'artist'
+        ]);
     }
 
     /**
