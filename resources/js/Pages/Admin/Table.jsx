@@ -44,7 +44,7 @@ export default function Table({auth, ...props}) {
             <Head title={`${title}`}/>
 
 
-            <Header target={`${target}.create`} data={data} title={"Uzytkownicy"}/>
+            <Header target={`${target}.create`} data={data}/>
 
             <List data={data} target={target}/>
 

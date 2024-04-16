@@ -26,11 +26,11 @@ class StoreEventRequest extends FormRequest
             "companyId" => ['required', 'string'],
             "placeId" => ['required', 'string'],
             "ageRestriction" => ['numeric'],
-            "artists" => ['array'],
+//            "artists" => ['array'],
             "eventTypeId" => ['required', 'string'],
             "startingAt" => ['required', 'date'],
             "endingAt" => ['required', 'date'],
-            "ticketPrice" => ['required', 'numeric'],
+//            "ticketPrice" => ['required', 'numeric'],
         ];
     }
 }

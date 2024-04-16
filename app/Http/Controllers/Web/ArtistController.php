@@ -73,8 +73,9 @@ class ArtistController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('Admin/Update/EditPlaceHolder', [
-            'artist' => $this->artistService->getArtistById($request['id'])
+        return Inertia::render('AddItem', [
+            'itemType' => 'artist',
+            'editTarget' => $this->artistService->getArtistById($request['id'])
         ]);
 
     }

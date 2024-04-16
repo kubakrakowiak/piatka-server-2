@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Services\CompanyServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -42,7 +43,7 @@ class CompanyController extends Controller
         $request->validated();
         $this->companyService->createCompany(
             $request->name,
-            $request->imageUrl
+            $request->imageId
         );
 
 
@@ -52,6 +53,24 @@ class CompanyController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         $this->companyService->deleteCompany($id);
+        return Redirect::route('company.index');
+    }
+
+    public function edit(Request $request): Response
+    {
+        return Inertia::render('AddItem', [
+            'itemType' => 'company',
+            'editTarget' => $this->companyService->getCompanyById($request['id'])
+        ]);
+    }
+
+    public function update(UpdateCompanyRequest $request, string $id): RedirectResponse
+    {
+        $this->companyService->updateCompany(
+            $request->validated(),
+            $id
+        );
+
         return Redirect::route('company.index');
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Place\StorePlaceRequest;
+use App\Http\Requests\Place\UpdatePlaceRequest;
 use App\Services\PlaceServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -52,9 +53,31 @@ class PlaceController extends Controller
         return Redirect::route('place.index');
     }
 
+
+
+    public function edit(Request $request): Response
+    {
+        return Inertia::render('AddItem', [
+            'itemType' => 'place',
+            'editTarget' => $this->placeService->getPlaceById($request->route('id'))
+        ]);
+    }
+
     public function destroy(string $id) : RedirectResponse
     {
         $this->placeService->deletePlace($id);
+        return Redirect::route('place.index');
+    }
+
+    public function update(UpdatePlaceRequest $request, string $id) : RedirectResponse
+    {
+        $request->validated();
+
+        $this->placeService->updatePlace(
+            $request->validated(),
+            $id
+        );
+
         return Redirect::route('place.index');
     }
 }

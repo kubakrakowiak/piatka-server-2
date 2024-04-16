@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Services\UserServiceInterface;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -30,5 +31,7 @@ class UserController extends Controller
             'itemType' => 'user'
         ]);
     }
+
+
 
 }

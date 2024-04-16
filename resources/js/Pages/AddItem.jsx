@@ -6,28 +6,28 @@ import AddItemForm from "@/Components/Admin/AddItemForm";
 export default function AddItem({auth, ...props}) {
 
     const itemType = props.itemType;
-
+    const label = props?.editTarget ? "Edytuj" : "Dodaj";
 
     const [title, setTitle] = useState("")
     useEffect(() => {
         switch (itemType) {
             case "company" :
-                setTitle("Dodaj firmę")
+                setTitle(`${label} organizatora`)
                 break;
             case "event" :
-                setTitle("Dodaj wydarzenie")
+                setTitle(`${label} wydarzenie`)
                 break;
             case "artist" :
-                setTitle("Dodaj artystę")
+                setTitle(`${label} artystę`)
                 break;
             case "event-type" :
-                setTitle("Dodaj typ wydarzenia")
+                setTitle(`${label} typ wydarzenia`)
                 break;
             case "user" :
-                setTitle("Dodaj użytkownika")
+                setTitle(`${label} użytkownika`)
                 break;
             case 'place' :
-                setTitle("Dodaj miejsce")
+                setTitle(`${label} miejsce`)
                 break;
         }
     }, []);

@@ -38,8 +38,9 @@ class EventController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Admin/Events', [
-            'events' => $this->eventService->getAllEvents()
+        return Inertia::render('Admin/Table', [
+            'itemType' => 'event',
+            'data' => $this->eventService->getAllEvents()
         ]);
     }
 
@@ -62,15 +63,14 @@ class EventController extends Controller
     public function edit(Request $request): Response
     {
 
-        $eventType = $this->eventTypeService->getAllEventTypes();
-        $artistsCollection = $this->artistService->getAllArtists();
-        $companiesCollection = $this->companyService->getAllCompanies();
 
-        return Inertia::render('EventsForm', [
-            'eventTypes' => $eventType,
-            'artistsCollection' => $artistsCollection,
-            'companiesCollection' => $companiesCollection,
-            'event' => $this->eventService->getEventById($request['id'])
+        return Inertia::render('AddItem', [
+            'itemType' => 'event',
+            'eventTypes' => $this->eventTypeService->getAllEventTypes(),
+            'artistsCollection' => $this->artistService->getAllArtists(),
+            'companiesCollection' => $this->companyService->getAllCompanies(),
+            'placesCollection' => $this->placeService->getAllPlaces(),
+            'editTarget' => $this->eventService->getEventById($request['id'])
         ]);
     }
 
@@ -80,16 +80,16 @@ class EventController extends Controller
 //        dd($request);
         $request->validated();
         $this->eventService->createEvent(
-            $request['companyId'],
-            $request['eventTypeId'],
+            "1",
+            "1",
             $request['name'],
-            $request['startingAt'],
-            $request['endingAt'],
-            $request['placeId'],
-            $request['artists'],
-            18);
+            $request['starting_at'],
+            $request['ending_at'],
+            "1",
+            $request['age_restriction'],
+        );
 
-        return Redirect::route('events.index');
+        return Redirect::route('event.index');
     }
 
     public function update(UpdateEventRequest $request): Response
@@ -108,18 +108,8 @@ class EventController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         $this->eventService->deleteEvent($request['id']);
-        return Redirect::route('events.index');
+        return Redirect::route('event.index');
     }
 
-//    public function showAllEvents(){
-//        $events = Event::all();
-//        return  Inertia::render("Events", ['events' => $events]);
-//    }
-
-//    public function showAllEvents(): Response
-//    {
-//        $events = Event::all();
-//        return Inertia::render('Events', ['events' => $events]);
-//    }
 
 }
