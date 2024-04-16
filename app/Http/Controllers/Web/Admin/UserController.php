@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Enums\CompanyRoleName;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\CompanyPermission\StoreCompanyPermissionRequest;
 use App\Http\Requests\GlobalPermission\StoreGlobalPermissionRequest;
+use App\Models\Company;
 use App\Models\User;
 use App\Services\UserService;
 use App\Services\UserServiceInterface;
@@ -43,10 +46,24 @@ class UserController extends Controller
     public function storePermissions(string $id, StoreGlobalPermissionRequest $globalPermissionRequest)
     {
         $user = User::find($id);
-        $role = Role::findById($globalPermissionRequest->roleId);
+        $role = Role::findById($globalPermissionRequest['roleId']]);
 
 
         $user->assignRole($role);
+        return response('', 200);
+    }
+
+        public function storeCompanyPermissions(string $id, StoreCompanyPermissionRequest $companyPermissionRequest)
+    {
+        $user = User::find($id);
+        $company = Company::find($companyId);
+
+        if(!in_array($companyPermissionRequest['roleId'], CompanyRoleName::values())) {
+            return response('Invalid role', 400);
+        }
+
+        $user->companies()->attach($company, ['role_name' => $companyPermissionRequest['roleId']]);
+
         return response('', 200);
     }
 }
