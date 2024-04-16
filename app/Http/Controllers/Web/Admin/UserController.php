@@ -43,26 +43,21 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function storePermissions(string $id, StoreGlobalPermissionRequest $globalPermissionRequest)
     {
-        $user = User::find($id);
-        $role = Role::findById($globalPermissionRequest['roleId']]);
-
-
-        $user->assignRole($role);
+        $this->userService->attachGlobalPermission($id, $globalPermissionRequest['roleId']);
         return response('', 200);
     }
 
-        public function storeCompanyPermissions(string $id, StoreCompanyPermissionRequest $companyPermissionRequest)
+    public function storeCompanyPermissions(string $id, StoreCompanyPermissionRequest $companyPermissionRequest): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        $user = User::find($id);
-        $company = Company::find($companyId);
-
-        if(!in_array($companyPermissionRequest['roleId'], CompanyRoleName::values())) {
+        if (in_array($companyPermissionRequest['roleId'], CompanyRoleName::values())) {
             return response('Invalid role', 400);
         }
-
-        $user->companies()->attach($company, ['role_name' => $companyPermissionRequest['roleId']]);
+        $this->userService->attachCompanyRole($id, $companyId, $companyPermissionRequest['roleId']);
 
         return response('', 200);
     }

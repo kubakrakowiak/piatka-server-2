@@ -18,7 +18,8 @@ class RolesTableSeeder extends Seeder
 
         // create permissions
         $permissions = [
-            'test permission',
+            'assign-global-permission',
+            'assign-company-permission',
         ];
 
         foreach ($permissions as $permission) {
@@ -27,7 +28,7 @@ class RolesTableSeeder extends Seeder
 
         // create roles and assign existing permissions
         $admin = Role::create(['name' => 'admin']);
-        $admin->givePermissionTo(['test permission']);
+        $admin->givePermissionTo(['assign-global-permission', 'assign-company-permission']);
 
         $superAdmin = Role::create(['name' => 'super-admin']);
         // super-admin gets all permissions
