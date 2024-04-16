@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Enums\CompanyRoleName;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GlobalPermission\StoreGlobalPermissionRequest;
+use App\Models\User;
 use App\Services\UserService;
 use App\Services\UserServiceInterface;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -37,4 +40,13 @@ class UserController extends Controller
         ]);
     }
 
+    public function storePermissions(string $id, StoreGlobalPermissionRequest $globalPermissionRequest)
+    {
+        $user = User::find($id);
+        $role = Role::findById($globalPermissionRequest->roleId);
+
+
+        $user->assignRole($role);
+        return response('', 200);
+    }
 }

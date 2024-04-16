@@ -12,7 +12,11 @@ export default function Page({auth, user, userSystemRoles, userCompanies, compan
 
     const toggleSystemPermissionModal = () => setIsSystemPermissionModalOpen(!isSystemPermissionModalOpen);
     const toggleCompanyPermissionModal = () => setIsCompanyPermissionModalOpen(!isCompanyPermissionModalOpen);
-console.log(companyRoles)
+
+    const sendPermissionRequest = () => {
+        const response = axios.post(route('users.permissions.store', { id: '9940933e-f7fd-49bc-956f-29f039c978a9' }), {roleId: '2'})
+
+    }
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -68,7 +72,7 @@ console.log(companyRoles)
                                 <h2 className="text-xl font-bold">Dodaj Uprawnienie Systemowe</h2>
                             </div>
                             <button
-                                onClick={toggleSystemPermissionModal}
+                                onClick={sendPermissionRequest}
                                 className="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded"
                             >
                                 Zapisz
