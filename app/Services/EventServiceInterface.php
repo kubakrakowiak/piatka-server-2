@@ -14,6 +14,7 @@ interface EventServiceInterface
         string $startingAt,
         string $endingAt,
         string $placeId,
+
         array $artists = [],
         ?int $ageRestriction = null
     ): Event;

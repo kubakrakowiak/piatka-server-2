@@ -27,7 +27,7 @@ class UpdateEventRequest extends FormRequest
             'eventTypeId' => ['required', 'exists:event_types,id'],
             "startingAt" => ['required', 'date'],
             "endingAt" => ['required', 'date'],
-            "ticketPrice" => ['required', 'numeric'],
+//            "ticketPrice" => ['required', 'numeric'],
         ];
     }
 }

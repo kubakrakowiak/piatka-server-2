@@ -5,7 +5,7 @@ import List from "@/Components/Events/List";
 import {useState} from "react";
 
 
-export default function Page({auth, user, systemRoles, companies}) {
+export default function Page({auth, user, userSystemRoles, userCompanies, companyRoles}) {
 
     const [isSystemPermissionModalOpen, setIsSystemPermissionModalOpen] = useState(false);
     const [isCompanyPermissionModalOpen, setIsCompanyPermissionModalOpen] = useState(false);
@@ -13,15 +13,19 @@ export default function Page({auth, user, systemRoles, companies}) {
     const toggleSystemPermissionModal = () => setIsSystemPermissionModalOpen(!isSystemPermissionModalOpen);
     const toggleCompanyPermissionModal = () => setIsCompanyPermissionModalOpen(!isCompanyPermissionModalOpen);
 
+    const sendPermissionRequest = () => {
+        const response = axios.post(route('users.permissions.store', { id: '9940933e-f7fd-49bc-956f-29f039c978a9' }), {roleId: '2'})
+
+    }
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Uprawnienia</h2>}
         >
-            <Head title="Uprawnienia Uzytkownika"/>
+            <Head title={"Uprawnienia Uzytkownika" + user.name}/>
 
 
-            <Header target={"users"} title={"Uprawnienia Uzytkownika"}/>
+            <Header target={"users"} title={"Uprawnienia Uzytkownika " + user.name}/>
             <div className="flex flex-row items-center">
                 <div className="flex-1 p-4">
                     <div className="flex items-center justify-between">
@@ -34,7 +38,7 @@ export default function Page({auth, user, systemRoles, companies}) {
                         </button>
                     </div>
                     <ul>
-                        {systemRoles.map((role, index) => (
+                        {userSystemRoles.map((role, index) => (
                             <li key={index}>{role.name}</li>
                         ))}
                     </ul>
@@ -52,7 +56,7 @@ export default function Page({auth, user, systemRoles, companies}) {
                             Dodaj
                         </button>
                         <ul>
-                            {companies.map((company, index) => (
+                            {userCompanies.map((company, index) => (
                                 <li key={index}>{company.name} {company.pivot.role_name}</li>
                             ))}
                         </ul>
@@ -68,7 +72,7 @@ export default function Page({auth, user, systemRoles, companies}) {
                                 <h2 className="text-xl font-bold">Dodaj Uprawnienie Systemowe</h2>
                             </div>
                             <button
-                                onClick={toggleSystemPermissionModal}
+                                onClick={sendPermissionRequest}
                                 className="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded"
                             >
                                 Zapisz
