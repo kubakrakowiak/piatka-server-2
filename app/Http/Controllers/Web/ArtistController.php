@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Artist\StoreArtistRequest;
 use App\Http\Requests\Artist\UpdateArtistRequest;
+use App\Models\Image;
 use App\Services\ArtistServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -51,9 +52,10 @@ class ArtistController extends Controller
         $request->validated();
 
 
+        $image = Image::all()->last();
         $this->artistService->createArtist(
             $request['name'],
-            $request['imageId']
+            $image->id
         );
 
         return Redirect::route('artist.index');
