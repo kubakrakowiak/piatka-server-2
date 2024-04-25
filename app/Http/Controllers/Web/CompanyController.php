@@ -40,10 +40,9 @@ class CompanyController extends Controller
 
     public function store(StoreCompanyRequest $request): RedirectResponse
     {
-        $request->validated();
+
         $this->companyService->createCompany(
-            $request->name,
-            $request->imageId
+            $request['name']
         );
 
 
@@ -64,14 +63,15 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function update(UpdateCompanyRequest $request, string $id): RedirectResponse
+    public function update(UpdateCompanyRequest $request, string $id): \Illuminate\Http\JsonResponse
     {
         $this->companyService->updateCompany(
             $request->validated(),
             $id
         );
 
-        return Redirect::route('company.index');
+        return response()->json(['message' => 'Item updated successfully'], 200);
+
     }
 
 

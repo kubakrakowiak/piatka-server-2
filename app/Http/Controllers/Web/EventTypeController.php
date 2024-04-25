@@ -80,7 +80,7 @@ class EventTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEventTypeRequest $request, string $id) : RedirectResponse
+    public function update(UpdateEventTypeRequest $request, string $id) : \Illuminate\Http\JsonResponse
     {
 
         $this->eventTypeService->updateEventType(
@@ -88,7 +88,8 @@ class EventTypeController extends Controller
             $id,
         );
 
-        return Redirect::route('event-type.index');
+        return response()->json(['message' => 'Item updated successfully'], 200);
+
     }
 
     /**

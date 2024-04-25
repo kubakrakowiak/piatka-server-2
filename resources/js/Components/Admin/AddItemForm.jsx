@@ -3,41 +3,45 @@
 
 import {useEffect, useState} from "react";
 import {Inertia} from "@inertiajs/inertia";
+import {router} from "@inertiajs/react";
 
 const fieldConfigs = {
     company: [
-        { name: 'name', type: 'text' },
-        { name: 'company_id', type: 'dropdown', collection: 'companiesCollection' }
+        {name: 'name', type: 'text'},
     ],
     place: [
-        { name: 'alias', type: 'text' },
-        { name: 'x_coord', type: 'number' },
-        { name: 'y_coord', type: 'number' },
+        {name: 'alias', type: 'text'},
+        {name: 'x_coord', type: 'number'},
+        {name: 'y_coord', type: 'number'},
     ],
     event: [
-        { name: 'name', type: 'text' },
-        { name: 'age_restriction', type: 'number' },
-        { name: 'starting_at', type: 'datetime-local' },
-        { name: 'ending_at', type: 'datetime-local' },
-        { name: 'company_id', type: 'dropdown', collection: 'companiesCollection' },
-        { name: 'place_id', type: 'dropdown', collection: 'placesCollection' },
-        { name: 'event_type_id', type: 'dropdown', collection: 'eventTypes' }
+        {name: 'name', type: 'text'},
+        {name: 'age_restriction', type: 'number'},
+        {name: 'starting_at', type: 'datetime-local'},
+        {name: 'ending_at', type: 'datetime-local'},
+        {name: 'company_id', type: 'dropdown', collection: 'companiesCollection'},
+        {name: 'place_id', type: 'dropdown', collection: 'placesCollection'},
+        {name: 'event_type_id', type: 'dropdown', collection: 'eventTypes'},
+        {name: 'artists', type: 'multiple-dropdown', collection: 'artistsCollection'},
+        // {name: 'ticket_price', type: 'number'},
+
     ],
     artist: [
-        { name: 'name', type: 'text' },
-        { name: 'image', type: 'file' },
+        {name: 'name', type: 'text'},
+        {name: 'image', type: 'file'},
     ],
     'event-type': [
-        { name: 'name', type: 'text' }
+        {name: 'name', type: 'text'}
     ],
     user: [
-        { name: 'name', type: 'text' },
-        { name: 'email', type: 'email' }
+        {name: 'name', type: 'text'},
+        {name: 'email', type: 'email'}
     ]
 };
 
 
 export default function AddItemForm({...props}) {
+
 
     const {itemType} = props;
     const itemToUpdate = props?.editTarget;
@@ -51,24 +55,50 @@ export default function AddItemForm({...props}) {
         return initialData;
     });
 
+
     const handleChange = (event) => {
-        const {name, value} = event.target;
-        setFormData(prev => ({...prev, [name]: value}));
+
+        const {name, value, type} = event.target;
+        let formattedValue = value;
+
+        const fieldConfig = fieldConfigs[itemType].find(f => f.name === name);
+
+        if (fieldConfig) {
+            switch (fieldConfig.type) {
+                case 'number':
+                    formattedValue = parseFloat(value);
+                    if (isNaN(formattedValue)) formattedValue = null;
+                    break;
+                case 'datetime-local':
+                    formattedValue = value;
+                    break;
+                case 'dropdown':
+                    break;
+
+                case 'multiple-dropdown':
+                    formattedValue = Array.from(event.target.selectedOptions, option => option.value);
+                    break;
+            }
+        }
+
+        setFormData(prev => ({...prev, [name]: formattedValue}));
     };
 
 
     const handleSubmit = (e) => {
-
         e.preventDefault();
 
-        function createUuid() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                var r = Math.random() * 16 | 0,
-                    v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
+        const convertNamesFromFormDataToCamelCase = (formData) => {
+            let formattedData = {};
+            for (const [key, value] of Object.entries(formData)) {
+                formattedData[key.replace(/_./g, (x) => x[1].toUpperCase())] = value;
+            }
+            return formattedData;
         }
-        for (const [key, value] of Object.entries(formData)) {
+        const newFromData = convertNamesFromFormDataToCamelCase(formData);
+
+
+        for (const [key, value] of Object.entries(newFromData)) {
             if (key.includes("_at")) {
                 const date = new Date(value);
                 formData[key] = date.toISOString().slice(0, 19).replace('T', ' ');
@@ -76,15 +106,21 @@ export default function AddItemForm({...props}) {
         }
 
 
-        if(operation === "create") {
-            Inertia.post(route(`${itemType}.store`, {
-                ...formData,
-                imageId: "1188b2c5-53d7-4dde-bc81-50a87d7c1ea0"
-            }))
-        }else{
-            Inertia.patch(route(`${itemType}.update`, {id: itemToUpdate.id}), {
-                ...formData,
-                imageId: "1188b2c5-53d7-4dde-bc81-50a87d7c1ea0"
+        if (operation === "create") {
+            const response = axios.post(route(`${itemType}.store`), {
+                ...newFromData,
+            }).then((response) => {
+                Inertia.visit(route(`${itemType}.index`));
+            }).catch((error) => {
+                console.log(error);
+            })
+        } else {
+            const response = axios.patch(route(`${itemType}.update`, {id: itemToUpdate.id}), {
+                ...newFromData,
+            }).then((response) => {
+                Inertia.visit(route(`${itemType}.index`));
+            }).catch((error) => {
+                console.log(error);
             })
         }
     };
@@ -108,11 +144,36 @@ export default function AddItemForm({...props}) {
                                     <div className="mt-2">
                                         {
                                             field.type === 'dropdown' ? (
-                                                <select>
-                                                    <option value="">Wybierz...</option>
+                                                <select
+                                                    name={field.name}
+                                                    id={field.name}
+
+                                                    onChange={handleChange}
+                                                >
+                                                    <option>Wybierz...</option>
                                                     {props[field.collection].map(item => (
-                                                        <option key={item.id} value={item.id}>{item.name ? item.name : item.alias}</option>
+                                                        <option
+                                                            key={item.id}
+                                                            value={item.id}>
+                                                            {item.name ? item.name : item.alias}
+                                                        </option>
                                                     ))}
+                                                </select>
+                                            ) : field.type === 'multiple-dropdown' ? (
+                                                <select
+                                                    name={field.name}
+                                                    id={field.name}
+                                                    multiple
+                                                    onChange={handleChange}
+                                                >
+                                                    {props[field.collection].map(item => (
+                                                        <option
+                                                            key={item.id}
+                                                            value={item.id}>
+                                                            {item.name ? item.name : item.alias}
+                                                        </option>
+                                                    ))}
+
                                                 </select>
                                             ) : (
                                                 <input

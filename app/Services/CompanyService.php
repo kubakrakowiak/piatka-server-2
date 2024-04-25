@@ -14,11 +14,9 @@ class CompanyService implements CompanyServiceInterface
 {
     public function createCompany(
         string $name,
-        string $imageUrl,
     ): Company{
         $company = Company::factory()->create([
             'name' => $name,
-            'image_url' => $imageUrl,
         ]);
         return $company;
     }

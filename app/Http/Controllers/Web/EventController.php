@@ -81,32 +81,32 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request): RedirectResponse
     {
+//        dd($request->all());
         $this->authorize('addEvent', $this->companyService->getCompanyById($request['companyId']));
 
         $request->validated();
         $this->eventService->createEvent(
-            "1",
-            "1",
+            $request['companyId'],
+            $request['eventTypeId'],
             $request['name'],
-            $request['starting_at'],
-            $request['ending_at'],
-            "1",
-            $request['age_restriction'],
+            $request['startingAt'],
+            $request['endingAt'],
+            $request['placeId'],
+            $request['artists'],
+            $request['ageRestriction'],
         );
 
         return Redirect::route('event.index');
     }
 
-    public function update(UpdateEventRequest $request): Response
+    public function update(UpdateEventRequest $request, string $id): \Illuminate\Http\JsonResponse
     {
+        $this->eventService->updateEvent(
+            $request->validated(),
+            $id,
+        );
 
-        $request->validated();
-        $event = $this->eventService->getEventById($request['id']);
-
-        return Inertia::render('AddEventDashboard', [
-            'eventToEdit' => $event
-        ]);
-
+        return response()->json(['message' => 'Item updated successfully'], 200);
 
     }
 

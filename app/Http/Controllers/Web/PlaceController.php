@@ -69,7 +69,7 @@ class PlaceController extends Controller
         return Redirect::route('place.index');
     }
 
-    public function update(UpdatePlaceRequest $request, string $id) : RedirectResponse
+    public function update(UpdatePlaceRequest $request, string $id) : \Illuminate\Http\JsonResponse
     {
         $request->validated();
 
@@ -78,6 +78,7 @@ class PlaceController extends Controller
             $id
         );
 
-        return Redirect::route('place.index');
+        return response()->json(['message' => 'Item updated successfully'], 200);
+
     }
 }

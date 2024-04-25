@@ -83,7 +83,7 @@ class ArtistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtistRequest $request, string $id) : RedirectResponse
+    public function update(UpdateArtistRequest $request, string $id) : \Illuminate\Http\JsonResponse
     {
 
         $this->artistService->updateArtist(
@@ -92,7 +92,8 @@ class ArtistController extends Controller
         );
 
 
-        return Redirect::route('artist.index');
+        return response()->json(['message' => 'Item updated successfully'], 200);
+
     }
 
     /**
