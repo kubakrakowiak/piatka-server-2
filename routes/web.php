@@ -95,13 +95,9 @@ Route::prefix('places')->middleware(['auth', 'verified'])->group(function () {
 
 // Users
 Route::prefix('users')->middleware(['auth'])->group(function () {
-    Route::get('/', [\App\Http\Controllers\Web\Admin\UserController::class, 'index'])->name('user.index');
-    Route::get('/add', [\App\Http\Controllers\Web\Admin\UserController::class, 'create'])->name('user.create');
-    Route::post('/add', [\App\Http\Controllers\Web\Admin\UserController::class, 'store'])->name('user.store');
-    Route::delete('/{id}', [\App\Http\Controllers\Web\Admin\UserController::class, 'destroy'])->name('user.destroy');
-    Route::get('/{id}', [\App\Http\Controllers\Web\Admin\UserController::class, 'edit'])->name('user.edit');
-    Route::patch('/{id}', [\App\Http\Controllers\Web\Admin\UserController::class, 'update'])->name('user.update');
-
+    Route::get('/', [\App\Http\Controllers\Web\Admin\UserController::class, 'index'])->name('users.index');
+    Route::get('/permissions/{id}', [\App\Http\Controllers\Web\Admin\UserController::class, 'showPermissions'])->name('users.permissions');
+    Route::post('/permissions/{id}', [\App\Http\Controllers\Web\Admin\UserController::class, 'storePermissions'])->name('users.permissions.store');
 });
 
 

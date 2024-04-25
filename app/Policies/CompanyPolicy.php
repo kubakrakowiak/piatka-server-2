@@ -4,10 +4,17 @@ namespace App\Policies;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Services\UserServiceInterface;
 use Illuminate\Auth\Access\Response;
 
 class CompanyPolicy
 {
+    private UserServiceInterface $userService;
+
+    public function __construct(UserServiceInterface $userService)
+    {
+        $this->userService = $userService;
+    }
     /**
      * Determine whether the user can view any models.
      */
@@ -63,4 +70,10 @@ class CompanyPolicy
     {
         return true;
     }
+
+    public function addEvent(User $user, Company $company): bool
+    {
+        return $this->userService->getUserCompanyPermission($user->id, $company->id) === 'admin';
+    }
+
 }

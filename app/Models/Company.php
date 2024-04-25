@@ -17,4 +17,11 @@ class Company extends Model
     public function events(){
         return $this->hasMany(Event::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'company_user')
+            ->withPivot('role_name')
+            ->withTimestamps();
+    }
 }

@@ -1,6 +1,6 @@
 import {Inertia} from "@inertiajs/inertia";
 
-export default function List({data, target}) {
+export default function List({data, target, changePermission = false}) {
 
     return (
         <>
@@ -38,6 +38,13 @@ export default function List({data, target}) {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            {changePermission && (
+                                                <a href="#" className="text-indigo-600 hover:text-indigo-900 mr-4"
+                                                   onClick={(e) => {
+                                                       e.preventDefault();
+                                                       Inertia.get(route(`${target}.permissions`, item.id))
+                                                   }}>Uprawnienia</a>
+                                            )}
                                             <a href="#" className="text-indigo-600 hover:text-indigo-900 mr-4"
                                                onClick={(e) => {
                                                    e.preventDefault();
