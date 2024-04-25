@@ -9,7 +9,6 @@ interface CompanyServiceInterface
 {
     public function createCompany(
         string $name,
-        string $imageUrl,
     ): Company;
 
     public function getAllCompanies();

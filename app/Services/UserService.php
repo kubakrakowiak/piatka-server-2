@@ -9,6 +9,7 @@ use App\Models\Image;
 use App\Models\Place;
 use App\Models\User;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 
 class UserService implements UserServiceInterface
 {
@@ -31,6 +32,9 @@ class UserService implements UserServiceInterface
     {
         $user = User::findOrFail($userId);
         $company = Company::findOrFail($companyId);
+        if(!$user->can('assign-company-permission')){
+            throw new \Exception('User does not have permission to assign company permission');
+        }
         $user->companies()->attach($company, ['role_name' => $role]);
         return $user;
     }
@@ -39,5 +43,20 @@ class UserService implements UserServiceInterface
         $user = User::findOrFail($userId);
 
         return $user->companies()->where('company_id', $companyId)->first()->pivot->role_name;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function attachGlobalPermission(string $userId, string $roleId): User
+    {
+        $user = User::findOrFail($userId);
+        if (!$user->can('assign-global-permission;')){
+            throw new \Exception('User does not have permission to assign global permission');
+        }
+        $role = Role::findById($roleId);
+        $user->assignRole($role);
+
+        return $user;
     }
 }

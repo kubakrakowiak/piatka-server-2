@@ -39,8 +39,9 @@ class EventController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('Admin/Events', [
-            'events' => $this->eventService->getAllEvents()
+        return Inertia::render('Admin/Table', [
+            'itemType' => 'event',
+            'data' => $this->eventService->getAllEvents()
         ]);
     }
 
@@ -51,7 +52,8 @@ class EventController extends Controller
         $companiesCollection = $this->companyService->getAllCompanies();
         $placesCollection = $this->placeService->getAllPlaces();
 
-        return Inertia::render('AddEventDashboard', [
+        return Inertia::render('AddItem', [
+            'itemType' => 'event',
             'eventTypes' => $eventType,
             'artistsCollection' => $artistsCollection,
             'companiesCollection' => $companiesCollection,
@@ -62,15 +64,14 @@ class EventController extends Controller
     public function edit(Request $request): Response
     {
 
-        $eventType = $this->eventTypeService->getAllEventTypes();
-        $artistsCollection = $this->artistService->getAllArtists();
-        $companiesCollection = $this->companyService->getAllCompanies();
 
-        return Inertia::render('EventsForm', [
-            'eventTypes' => $eventType,
-            'artistsCollection' => $artistsCollection,
-            'companiesCollection' => $companiesCollection,
-            'event' => $this->eventService->getEventById($request['id'])
+        return Inertia::render('AddItem', [
+            'itemType' => 'event',
+            'eventTypes' => $this->eventTypeService->getAllEventTypes(),
+            'artistsCollection' => $this->artistService->getAllArtists(),
+            'companiesCollection' => $this->companyService->getAllCompanies(),
+            'placesCollection' => $this->placeService->getAllPlaces(),
+            'editTarget' => $this->eventService->getEventById($request['id'])
         ]);
     }
 
@@ -80,6 +81,7 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request): RedirectResponse
     {
+//        dd($request->all());
         $this->authorize('addEvent', $this->companyService->getCompanyById($request['companyId']));
 
         $request->validated();
@@ -91,39 +93,28 @@ class EventController extends Controller
             $request['endingAt'],
             $request['placeId'],
             $request['artists'],
-            18);
+            $request['ageRestriction'],
+        );
 
-        return Redirect::route('events.index');
+        return Redirect::route('event.index');
     }
 
-    public function update(UpdateEventRequest $request): Response
+    public function update(UpdateEventRequest $request, string $id): \Illuminate\Http\JsonResponse
     {
+        $this->eventService->updateEvent(
+            $request->validated(),
+            $id,
+        );
 
-        $request->validated();
-        $event = $this->eventService->getEventById($request['id']);
-
-        return Inertia::render('AddEventDashboard', [
-            'eventToEdit' => $event
-        ]);
-
+        return response()->json(['message' => 'Item updated successfully'], 200);
 
     }
 
     public function destroy(Request $request): RedirectResponse
     {
         $this->eventService->deleteEvent($request['id']);
-        return Redirect::route('events.index');
+        return Redirect::route('event.index');
     }
 
-//    public function showAllEvents(){
-//        $events = Event::all();
-//        return  Inertia::render("Events", ['events' => $events]);
-//    }
-
-//    public function showAllEvents(): Response
-//    {
-//        $events = Event::all();
-//        return Inertia::render('Events', ['events' => $events]);
-//    }
 
 }

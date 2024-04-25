@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Place\StorePlaceRequest;
+use App\Http\Requests\Place\UpdatePlaceRequest;
 use App\Services\PlaceServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -26,14 +27,17 @@ class PlaceController extends Controller
 
     public function index(Request $request) : Response
     {
-        return Inertia::render('Admin/Places' , [
-            'places' => $this->placeService->getAllPlaces()
+        return Inertia::render('Admin/Table' , [
+            'itemType' => 'place',
+            'data' => $this->placeService->getAllPlaces()
         ]);
     }
 
     public function create(Request $request) : Response
     {
-        return Inertia::render('AddPlaceDashboard');
+        return Inertia::render('AddItem', [
+            'itemType' => 'place'
+        ]);
     }
 
     public function store(StorePlaceRequest $request) : RedirectResponse
@@ -49,9 +53,32 @@ class PlaceController extends Controller
         return Redirect::route('place.index');
     }
 
+
+
+    public function edit(Request $request): Response
+    {
+        return Inertia::render('AddItem', [
+            'itemType' => 'place',
+            'editTarget' => $this->placeService->getPlaceById($request->route('id'))
+        ]);
+    }
+
     public function destroy(string $id) : RedirectResponse
     {
         $this->placeService->deletePlace($id);
         return Redirect::route('place.index');
+    }
+
+    public function update(UpdatePlaceRequest $request, string $id) : \Illuminate\Http\JsonResponse
+    {
+        $request->validated();
+
+        $this->placeService->updatePlace(
+            $request->validated(),
+            $id
+        );
+
+        return response()->json(['message' => 'Item updated successfully'], 200);
+
     }
 }

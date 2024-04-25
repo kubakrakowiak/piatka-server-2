@@ -209,9 +209,7 @@ export default function EventsForm({test}) {
             "artists": []
         }
 
-        const response = axios.post(route('events.store'), dataToSend)
-
-
+        const response = axios.post(route('event.store'), dataToSend)
     }
 
 
