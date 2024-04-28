@@ -46,8 +46,8 @@ class PlaceController extends Controller
 
         $this->placeService->createPlace(
             $request['alias'],
-            $request['x_coord'],
-            $request['y_coord']
+            $request['xCoord'],
+            $request['yCoord']
         );
 
         return Redirect::route('place.index');
