@@ -38,7 +38,7 @@ jobs:
       with:
         url: 'https://piatka.jetbrains.space/api/http/projects/key:MAIN/automation/deployments/start'
         method: 'POST'
-        bearerToken: ${{ secrets.SPACE_ACCESS_TOKEN }}
+        bearerToken: '${{ secrets.SPACE_ACCESS_TOKEN }}'
         customHeaders: '{"Content-Type": "application/json", "Accept": "application/json"}'
         data: '{"targetIdentifier": "piatka-sever-2", "version": "${{ github.run_id }}", "commitRefs": [{"repositoryName": "piatka-sever-2","branch": "${{ steps.extract_branch.outputs.branch }}", "commit": "${{ env.LAST_COMMIT_SHA }}"}]}'
 
