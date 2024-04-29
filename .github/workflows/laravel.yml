@@ -254,7 +254,7 @@ jobs:
           method: 'POST'
           bearerToken: 'eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJlNTQwZjNiZC0xMjk1LTQyM2EtOTg0My0yMTE5Yzk1ZTUxNzciLCJhdWQiOiJlNTQwZjNiZC0xMjk1LTQyM2EtOTg0My0yMTE5Yzk1ZTUxNzciLCJvcmdEb21haW4iOiJwaWF0a2EiLCJuYW1lIjoicGlhdGthLXNlcnZlciIsImlzcyI6Imh0dHBzOlwvXC9waWF0a2EuamV0YnJhaW5zLnNwYWNlIiwicGVybV90b2tlbiI6IjQwNGVsRjRnUFlTRCIsInByaW5jaXBhbF90eXBlIjoiU0VSVklDRSIsImlhdCI6MTY3OTc1NTg1MH0.BbltoSLvpyItNTrPXgGWPP_PDC3jdvY_SWtJTdyVNmI40u4LpKhvcKBVq1QFOkxtDdgTM7w1VH4o2Jk1raCSopo7iQLRLT3FkavcOYR2JGoo-WWP4MQNDRqkn1rSalgghVNY--M1v25a1LUw1j-SldO0fS4jEK0rdUn1x5ryxCk'
           customHeaders: '{"Content-Type": "application/json", "Accept": "application/json"}'
-          data: '{"targetIdentifier": "piatka-sever-2", "version": "${{ github.run_id }}", "commitRefs": [{"repositoryName": "piatka-sever-2","branch": "${{ steps.extract_branch.outputs.branch }}", "commit": "${{ env.LAST_COMMIT_SHA }}"}]}'
+          data: '{"targetIdentifier": "piatka-server-2", "version": "${{ github.run_id }}", "commitRefs": [{"repositoryName": "piatka-server-2","branch": "${{ steps.extract_branch.outputs.branch }}", "commit": "${{ env.LAST_COMMIT_SHA }}"}]}'
       - name: Has failed
         if: ${{ failure() || cancelled() }}
         uses: fjogeleit/http-request-action@v1.14.0
@@ -263,5 +263,5 @@ jobs:
           method: 'POST'
           bearerToken: 'eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJlNTQwZjNiZC0xMjk1LTQyM2EtOTg0My0yMTE5Yzk1ZTUxNzciLCJhdWQiOiJlNTQwZjNiZC0xMjk1LTQyM2EtOTg0My0yMTE5Yzk1ZTUxNzciLCJvcmdEb21haW4iOiJwaWF0a2EiLCJuYW1lIjoicGlhdGthLXNlcnZlciIsImlzcyI6Imh0dHBzOlwvXC9waWF0a2EuamV0YnJhaW5zLnNwYWNlIiwicGVybV90b2tlbiI6IjQwNGVsRjRnUFlTRCIsInByaW5jaXBhbF90eXBlIjoiU0VSVklDRSIsImlhdCI6MTY3OTc1NTg1MH0.BbltoSLvpyItNTrPXgGWPP_PDC3jdvY_SWtJTdyVNmI40u4LpKhvcKBVq1QFOkxtDdgTM7w1VH4o2Jk1raCSopo7iQLRLT3FkavcOYR2JGoo-WWP4MQNDRqkn1rSalgghVNY--M1v25a1LUw1j-SldO0fS4jEK0rdUn1x5ryxCk'
           customHeaders: '{"Content-Type": "application/json", "Accept": "application/json"}'
-          data: '{"targetIdentifier": "piatka-sever-2", "version": "${{ github.run_id }}", "commitRefs": [{"repositoryName": "piatka-sever-2","branch": "${{ steps.extract_branch.outputs.branch }}", "commit": "${{ env.LAST_COMMIT_SHA }}"}]}'
+          data: '{"targetIdentifier": "piatka-server-2", "version": "${{ github.run_id }}", "commitRefs": [{"repositoryName": "piatka-server-2","branch": "${{ steps.extract_branch.outputs.branch }}", "commit": "${{ env.LAST_COMMIT_SHA }}"}]}'
           
